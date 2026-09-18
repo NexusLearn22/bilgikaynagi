@@ -1,0 +1,4731 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BilgiKaynağı</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81'
+            }
+          },
+          animation: {
+            float: 'float 5s ease-in-out infinite',
+            fade: 'fade .3s ease-out',
+            slide: 'slide .3s ease-out',
+            marquee: 'marquee 25s linear infinite'
+          },
+          keyframes: {
+            float: {
+              '0%,100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-8px)' }
+            },
+            fade: {
+              from: { opacity: '0' },
+              to: { opacity: '1' }
+            },
+            slide: {
+              from: { opacity: '0', transform: 'translateY(12px)' },
+              to: { opacity: '1', transform: 'translateY(0)' }
+            },
+            marquee: {
+              from: { transform: 'translateX(0)' },
+              to: { transform: 'translateX(-50%)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    * { scrollbar-width: thin; scrollbar-color: #6366f1 transparent; }
+
+    body {
+      min-height: 100vh;
+      transition: background .25s, color .25s;
+    }
+
+    .glass {
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(148,163,184,.2);
+    }
+
+    .dark .glass {
+      background: rgba(15,23,42,.72);
+      border-color: rgba(148,163,184,.12);
+    }
+
+    .card {
+      border: 1px solid rgb(226 232 240);
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+    }
+
+    .dark .card {
+      border-color: rgb(30 41 59);
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgb(99 102 241);
+      box-shadow: 0 12px 35px rgba(79,70,229,.12);
+    }
+
+    .progress {
+      transition: width .5s ease;
+    }
+
+    .page-enter {
+      animation: slide .28s ease-out;
+    }
+
+    .prose-custom p {
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    .code-editor {
+      font-family: Consolas, Monaco, monospace;
+      tab-size: 2;
+    }
+
+    .toast {
+      animation: slide .25s ease-out;
+    }
+
+    .nav-active {
+      background: rgba(99,102,241,.12);
+      color: rgb(129 140 248);
+    }
+
+    .modal-backdrop {
+      background: rgba(2,6,23,.7);
+      backdrop-filter: blur(5px);
+    }
+
+    input, textarea, select {
+      outline: none;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .hero-title {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+
+<!-- ANNOUNCEMENT -->
+<div class="bg-brand-600 text-white overflow-hidden h-8 flex items-center">
+  <div class="whitespace-nowrap animate-marquee text-sm font-medium">
+    🚀 BilgiKaynağı'na hoş geldin! • Yeni dersler ve özellikler seni bekliyor •
+    🎯 Günlük hedefini tamamla • 🔥 Serini koru • 🏆 Rozetlerini topla •
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    🚀 BilgiKaynağı'na hoş geldin! • Yeni dersler ve özellikler seni bekliyor •
+    🎯 Günlük hedefini tamamla • 🔥 Serini koru • 🏆 Rozetlerini topla •
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-950/90 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="h-16 flex items-center justify-between gap-4">
+
+      <button onclick="navigate('home')" class="flex items-center gap-2 shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-white font-black">
+          N
+        </div>
+        <div class="hidden sm:block text-left">
+          <div class="font-black text-lg">Bilgi<span class="text-brand-500">Kaynağı</span></div>
+          <div class="text-[10px] text-slate-500">Öğren • Geliş • Üret</div>
+        </div>
+      </button>
+
+      <!-- DESKTOP NAV -->
+      <nav class="hidden lg:flex items-center gap-1 text-sm">
+        <button data-nav="home" onclick="navigate('home')" class="nav-btn px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Ana Sayfa</button>
+        <button data-nav="categories" onclick="navigate('categories')" class="nav-btn px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Kategoriler</button>
+        <button data-nav="capcut" onclick="navigate('capcut')" class="nav-btn px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">CapCut</button>
+        <button data-nav="social" onclick="navigate('social')" class="nav-btn px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Sosyal Medya</button>
+        <button data-nav="coding" onclick="navigate('coding')" class="nav-btn px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Kodlama</button>
+        <button data-nav="ai" onclick="navigate('ai')" class="nav-btn px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">AI Koç</button>
+        <button data-nav="community" onclick="navigate('community')" class="nav-btn px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Topluluk</button>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button onclick="toggleTheme()" class="p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800" title="Tema">
+          <i data-lucide="sun-moon" class="w-5 h-5"></i>
+        </button>
+
+        <button onclick="navigate('notifications')" class="relative p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+          <i data-lucide="bell" class="w-5 h-5"></i>
+          <span id="notification-dot" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+        </button>
+
+        <button onclick="navigate('dashboard')" class="hidden sm:flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2.5 rounded-xl font-bold text-sm">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          Panelim
+        </button>
+
+        <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+          <i data-lucide="menu" class="w-5 h-5" id="menu-icon"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- MOBILE NAV -->
+    <div id="mobile-menu" class="hidden lg:hidden pb-4">
+      <div class="grid gap-1 p-2 rounded-2xl bg-slate-100 dark:bg-slate-900">
+        <button onclick="mobileNavigate('home')" class="mobile-nav">🏠 Ana Sayfa</button>
+        <button onclick="mobileNavigate('categories')" class="mobile-nav">📚 Kategoriler</button>
+        <button onclick="mobileNavigate('capcut')" class="mobile-nav">🎬 CapCut Akademi</button>
+        <button onclick="mobileNavigate('social')" class="mobile-nav">📱 Sosyal Medya</button>
+        <button onclick="mobileNavigate('coding')" class="mobile-nav">💻 Kodlama</button>
+        <button onclick="mobileNavigate('ai')" class="mobile-nav">🤖 AI Koç</button>
+        <button onclick="mobileNavigate('community')" class="mobile-nav">💬 Topluluk</button>
+        <button onclick="mobileNavigate('dashboard')" class="mobile-nav">📊 Panelim</button>
+        <button onclick="mobileNavigate('settings')" class="mobile-nav">⚙️ Ayarlar</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- APP -->
+<main id="app-content" class="min-h-[calc(100vh-100px)]"></main>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-200 dark:border-slate-800 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-10">
+    <div class="grid md:grid-cols-4 gap-8">
+      <div>
+        <div class="font-black text-xl">Bilgi<span class="text-brand-500">Kaynağı</span></div>
+        <p class="text-sm text-slate-500 mt-2">Kendi hızında öğren, üret ve geliş.</p>
+      </div>
+
+      <div>
+        <h3 class="font-bold mb-3">Öğren</h3>
+        <div class="space-y-2 text-sm text-slate-500">
+          <button onclick="navigate('categories')" class="block hover:text-brand-500">Kategoriler</button>
+          <button onclick="navigate('roadmap')" class="block hover:text-brand-500">Yol Haritası</button>
+          <button onclick="navigate('favorites')" class="block hover:text-brand-500">Favorilerim</button>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-bold mb-3">Topluluk</h3>
+        <div class="space-y-2 text-sm text-slate-500">
+          <button onclick="navigate('community')" class="block hover:text-brand-500">Topluluk</button>
+          <button onclick="navigate('achievements')" class="block hover:text-brand-500">Başarılarım</button>
+          <button onclick="navigate('ai')" class="block hover:text-brand-500">AI Koç</button>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-bold mb-3">Sistem</h3>
+        <div class="space-y-2 text-sm text-slate-500">
+          <button onclick="navigate('settings')" class="block hover:text-brand-500">Ayarlar</button>
+          <button onclick="navigate('admin')" class="block hover:text-brand-500">Yönetici Paneli</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-200 dark:border-slate-800 mt-8 pt-6 text-center text-xs text-slate-500">
+      © 2026 BilgiKaynağı • Tek dosyalı eğitim platformu
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div id="toast-container" class="fixed right-4 bottom-4 z-[100] space-y-3 w-[calc(100%-2rem)] sm:w-96 pointer-events-none"></div>
+
+<!-- MODAL -->
+<div id="modal-container"></div>
+
+<script>
+/* =========================================================
+   BİLGİKAYNAĞI
+   SINGLE FILE APPLICATION
+========================================================= */
+
+/* =========================================================
+   DATA
+========================================================= */
+
+const defaultLessons = [
+  {
+    id: 1,
+    academy: "capcut",
+    title: "Video Kesme ve Bölme",
+    description: "Videolarını hızlı ve profesyonel şekilde kesmeyi öğren.",
+    level: "Başlangıç",
+    duration: 15,
+    icon: "scissors",
+    tags: ["capcut","video","kurgu"],
+    content: `
+      <p>Video düzenlemenin en temel aşaması doğru kesimler yapmaktır.</p>
+      <p>CapCut üzerinde zaman çizelgesini kullanarak videonu istediğin noktalardan bölebilir ve gereksiz bölümleri kaldırabilirsin.</p>
+      <h3 class="text-xl font-bold mb-3">Temel adımlar</h3>
+      <ol class="list-decimal ml-5 space-y-2">
+        <li>Videonu projeye ekle.</li>
+        <li>Zaman çizelgesinde kesmek istediğin noktaya gel.</li>
+        <li>Bölme aracını kullan.</li>
+        <li>Gereksiz parçaları kaldır.</li>
+      </ol>
+    `,
+    quiz: [
+      {
+        q: "Videoyu iki parçaya ayırmak için hangi işlem kullanılır?",
+        options: ["Filtre", "Bölme", "Ses", "Dışa aktarma"],
+        answer: 1,
+        explanation: "Bölme aracı videoyu seçtiğin noktadan iki parçaya ayırır."
+      },
+      {
+        q: "Zaman çizelgesi neyi gösterir?",
+        options: ["Videonun zaman akışını", "Sadece sesi", "Kullanıcı profilini", "İnternet hızını"],
+        answer: 0,
+        explanation: "Zaman çizelgesi medya içeriğinin zaman içerisindeki akışını gösterir."
+      }
+    ]
+  },
+  {
+    id: 2,
+    academy: "capcut",
+    title: "Hız Eğrileri",
+    description: "Videolarda hız değişimleri ve akıcı geçişler oluştur.",
+    level: "Orta",
+    duration: 20,
+    icon: "gauge",
+    tags: ["capcut","hız","velocity"],
+    content: `
+      <p>Hız eğrileri videonun farklı bölümlerinde hızlanma ve yavaşlama oluşturmanı sağlar.</p>
+      <p>Özellikle kısa video içeriklerinde ritim oluşturmak için kullanılabilir.</p>
+    `,
+    quiz: [
+      {
+        q: "Hız eğrileri temel olarak neyi değiştirir?",
+        options: ["Videonun hızını", "Profil fotoğrafını", "Dosya adını", "Kullanıcı adını"],
+        answer: 0,
+        explanation: "Hız eğrileri videonun zaman içerisindeki oynatma hızını değiştirir."
+      }
+    ]
+  },
+  {
+    id: 3,
+    academy: "capcut",
+    title: "Keyframe Kullanımı",
+    description: "Objeleri ve efektleri zaman içinde hareket ettirmeyi öğren.",
+    level: "Orta",
+    duration: 25,
+    icon: "move",
+    tags: ["capcut","keyframe","animasyon"],
+    content: `
+      <p>Keyframe, bir özelliğin zaman içinde farklı değerler almasını sağlayan temel animasyon sistemidir.</p>
+      <p>Konum, ölçek, döndürme ve opaklık gibi özelliklerde kullanılabilir.</p>
+    `,
+    quiz: [
+      {
+        q: "Keyframe ne için kullanılır?",
+        options: ["Animasyon oluşturmak", "Dosya silmek", "Hesap açmak", "Video yüklemek"],
+        answer: 0,
+        explanation: "Keyframe zaman içinde özellik değişimleri oluşturmak için kullanılır."
+      }
+    ]
+  },
+  {
+    id: 4,
+    academy: "capcut",
+    title: "Maskeleme ve Chroma Key",
+    description: "Arka planları kaldır ve gelişmiş kompozisyonlar oluştur.",
+    level: "İleri",
+    duration: 30,
+    icon: "layers",
+    tags: ["capcut","maske","green screen"],
+    content: `
+      <p>Maskeleme, görüntünün belirli bölümlerini seçerek farklı işlemler uygulamana yardımcı olur.</p>
+      <p>Chroma Key ise özellikle yeşil ekran görüntülerinde arka planı ayırmak için kullanılır.</p>
+    `,
+    quiz: [
+      {
+        q: "Chroma Key en çok hangi durumda kullanılır?",
+        options: ["Yeşil ekran", "Ses kaydı", "Dosya sıkıştırma", "Metin yazma"],
+        answer: 0,
+        explanation: "Chroma Key yeşil/mavi ekran gibi renk tabanlı arka planları ayırmak için kullanılır."
+      }
+    ]
+  },
+
+  {
+    id: 5,
+    academy: "social",
+    title: "YouTube CTR Temelleri",
+    description: "Başlık ve küçük resimlerin tıklanma oranındaki rolünü öğren.",
+    level: "Başlangıç",
+    duration: 18,
+    icon: "youtube",
+    tags: ["youtube","ctr","thumbnail"],
+    content: `
+      <p>CTR, gösterim alan kullanıcıların videoya tıklama oranını ifade eder.</p>
+      <p>Başlık ve küçük resim, izleyicinin videoyu seçme kararındaki unsurlardan bazılarıdır.</p>
+    `,
+    quiz: [
+      {
+        q: "CTR neyi ifade eder?",
+        options: ["Tıklanma oranını", "Video süresini", "Abone yaşını", "İnternet hızını"],
+        answer: 0,
+        explanation: "CTR, gösterimlerden gelen tıklama oranını ifade eder."
+      }
+    ]
+  },
+  {
+    id: 6,
+    academy: "social",
+    title: "Shorts ve Reels Döngüsü",
+    description: "Kısa videolarda akıcı başlangıç ve bitişler oluştur.",
+    level: "Orta",
+    duration: 22,
+    icon: "repeat",
+    tags: ["shorts","reels","video"],
+    content: `
+      <p>Kısa videolarda ilk saniyeler izleyicinin dikkatini çekmek açısından önemlidir.</p>
+      <p>Döngü hissi veren kurgu, videonun başlangıcı ile sonunu birbirine bağlayabilir.</p>
+    `,
+    quiz: [
+      {
+        q: "Kısa videolarda başlangıç neden önemlidir?",
+        options: ["İlk izlenimi oluşturduğu için", "Dosyayı küçülttüğü için", "İnterneti hızlandırdığı için", "Telefonu şarj ettiği için"],
+        answer: 0,
+        explanation: "Başlangıç, izleyicinin videoda kalıp kalmama kararını etkileyebilir."
+      }
+    ]
+  },
+
+  {
+    id: 7,
+    academy: "coding",
+    title: "HTML Temelleri",
+    description: "Web sayfalarının yapısını HTML ile oluştur.",
+    level: "Başlangıç",
+    duration: 25,
+    icon: "code-2",
+    tags: ["html","web","coding"],
+    content: `
+      <p>HTML web sayfasının yapısını oluşturmak için kullanılan işaretleme dilidir.</p>
+      <p>Başlıklar, paragraflar, butonlar ve bağlantılar HTML elementleriyle oluşturulur.</p>
+    `,
+    quiz: [
+      {
+        q: "HTML ne için kullanılır?",
+        options: ["Web sayfasının yapısını oluşturmak", "Video düzenlemek", "Veritabanı yönetmek", "Fotoğraf çekmek"],
+        answer: 0,
+        explanation: "HTML web sayfasının yapısal içeriğini tanımlar."
+      }
+    ]
+  },
+  {
+    id: 8,
+    academy: "coding",
+    title: "CSS ile Tasarım",
+    description: "Web sayfalarını CSS ile şekillendir.",
+    level: "Başlangıç",
+    duration: 30,
+    icon: "palette",
+    tags: ["css","tasarım","web"],
+    content: `
+      <p>CSS, HTML elementlerinin görünümünü ve yerleşimini kontrol etmek için kullanılır.</p>
+    `,
+    quiz: [
+      {
+        q: "CSS temel olarak neyi kontrol eder?",
+        options: ["Görsel stil ve düzeni", "Kullanıcı şifresini", "Videonun sesini", "Bilgisayarın RAM'ini"],
+        answer: 0,
+        explanation: "CSS web sayfasının görünümü ve düzeniyle ilgilenir."
+      }
+    ]
+  },
+  {
+    id: 9,
+    academy: "coding",
+    title: "JavaScript Başlangıç",
+    description: "Web sayfalarına etkileşim ve davranış kazandır.",
+    level: "Orta",
+    duration: 35,
+    icon: "braces",
+    tags: ["javascript","js","web"],
+    content: `
+      <p>JavaScript web sayfalarına dinamik davranışlar eklemeyi sağlar.</p>
+      <p>Buton tıklamaları, hesaplamalar ve kullanıcı etkileşimleri JavaScript ile yönetilebilir.</p>
+    `,
+    quiz: [
+      {
+        q: "JavaScript web sayfasında ne sağlar?",
+        options: ["Etkileşim ve davranış", "Sadece renk", "Sadece yazı", "Sadece video"],
+        answer: 0,
+        explanation: "JavaScript sayfaya dinamik davranış ve etkileşim kazandırabilir."
+      }
+    ]
+  },
+  {
+    id: 10,
+    academy: "coding",
+    title: "Python Temelleri",
+    description: "Python ile programlamaya giriş yap.",
+    level: "Başlangıç",
+    duration: 35,
+    icon: "terminal",
+    tags: ["python","programlama"],
+    content: `
+      <p>Python okunabilir sözdizimiyle başlayanlar için popüler bir programlama dilidir.</p>
+      <p>Değişkenler, koşullar, döngüler ve fonksiyonlar temel yapı taşlarıdır.</p>
+    `,
+    quiz: [
+      {
+        q: "Python nedir?",
+        options: ["Programlama dili", "Video editörü", "Tarayıcı", "İşletim sistemi"],
+        answer: 0,
+        explanation: "Python bir programlama dilidir."
+      }
+    ]
+  }
+];
+
+const academies = {
+  capcut: {
+    title: "CapCut Akademi",
+    icon: "🎬",
+    description: "Video düzenleme, kurgu ve kısa video üretimi.",
+    color: "from-pink-500 to-rose-500"
+  },
+  social: {
+    title: "Sosyal Medya Akademisi",
+    icon: "📱",
+    description: "YouTube, Shorts, Reels ve içerik stratejileri.",
+    color: "from-blue-500 to-cyan-500"
+  },
+  coding: {
+    title: "Kodlama Akademisi",
+    icon: "💻",
+    description: "Web geliştirme ve programlama temelleri.",
+    color: "from-emerald-500 to-teal-500"
+  }
+};
+
+const badges = [
+  { id:"first", name:"İlk Ders", icon:"🎓", desc:"İlk dersini tamamla.", check:s=>s.completed.length >= 1 },
+  { id:"three", name:"Üçlü Başlangıç", icon:"🔥", desc:"3 ders tamamla.", check:s=>s.completed.length >= 3 },
+  { id:"ten", name:"Bilgi Avcısı", icon:"📚", desc:"10 ders tamamla.", check:s=>s.completed.length >= 10 },
+  { id:"quiz", name:"İlk Quiz", icon:"🧠", desc:"İlk quizini çöz.", check:s=>Object.keys(s.quizScores).length >= 1 },
+  { id:"perfect", name:"Mükemmel", icon:"💯", desc:"Bir quizden tam puan al.", check:s=>Object.values(s.quizScores).some(x=>x === 100) },
+  { id:"xp", name:"XP Ustası", icon:"⭐", desc:"1000 XP kazan.", check:s=>s.xp >= 1000 },
+  { id:"streak", name:"Seri Başlangıcı", icon:"🔥", desc:"3 günlük seri oluştur.", check:s=>s.streak >= 3 },
+  { id:"academy", name:"Akademi Bitirici", icon:"🏆", desc:"Bir akademiyi tamamla.", check:s=>Object.keys(academies).some(a=>academyProgress(a) === 100) }
+];
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const STORAGE_KEY = "bilgikaynağı_state_v2";
+
+function defaultState() {
+  return {
+    profile: {
+      username: "BilgiKaynağı Öğrencisi",
+      bio: "Öğrenmeye devam ediyorum 🚀",
+      avatar: "👨‍💻"
+    },
+    completed: [],
+    notes: {},
+    favorites: [],
+    history: [],
+    later: [],
+    playlists: [
+      { id: "default", name: "Öğrenme Listem", lessons: [] }
+    ],
+    xp: 0,
+    quizScores: {},
+    streak: 0,
+    lastActive: null,
+    dailyGoal: 1,
+    dailyCompleted: 0,
+    dailyDate: null,
+    badges: [],
+    notifications: [],
+    community: [],
+    announcements: [
+      {
+        id: Date.now(),
+        text: "BilgiKaynağı yeni özelliklerle gelişmeye devam ediyor! 🚀",
+        date: new Date().toISOString()
+      }
+    ],
+    aiHistory: [],
+    learningTime: {},
+    settings: {
+      notifications: true,
+      theme: "dark"
+    },
+    customLessons: []
+  };
+}
+
+let state = loadState();
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return defaultState();
+
+    const parsed = JSON.parse(saved);
+    return mergeState(defaultState(), parsed);
+  } catch(e) {
+    console.error(e);
+    return defaultState();
+  }
+}
+
+function mergeState(base, saved) {
+  return {
+    ...base,
+    ...saved,
+    profile: { ...base.profile, ...(saved.profile || {}) },
+    settings: { ...base.settings, ...(saved.settings || {}) },
+    notes: saved.notes || {},
+    completed: saved.completed || [],
+    favorites: saved.favorites || [],
+    history: saved.history || [],
+    later: saved.later || [],
+    playlists: saved.playlists || base.playlists,
+    quizScores: saved.quizScores || {},
+    badges: saved.badges || [],
+    notifications: saved.notifications || [],
+    community: saved.community || [],
+    customLessons: saved.customLessons || [],
+    learningTime: saved.learningTime || {},
+    aiHistory: saved.aiHistory || []
+  };
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch(e) {
+    console.error("Kaydetme hatası:", e);
+  }
+}
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function allLessons() {
+  return [...defaultLessons, ...state.customLessons];
+}
+
+function getLesson(id) {
+  return allLessons().find(l => String(l.id) === String(id));
+}
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function academyLessons(academy) {
+  return allLessons().filter(l => l.academy === academy);
+}
+
+function academyProgress(academy) {
+  const list = academyLessons(academy);
+  if (!list.length) return 0;
+  return Math.round(
+    list.filter(l => state.completed.includes(l.id)).length / list.length * 100
+  );
+}
+
+function getLevel() {
+  return Math.floor(state.xp / 500) + 1;
+}
+
+function xpIntoLevel() {
+  return state.xp % 500;
+}
+
+function formatDate(date) {
+  return new Date(date).toLocaleDateString("tr-TR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+
+function formatMinutes(minutes) {
+  if (!minutes) return "0 dk";
+  if (minutes < 60) return `${minutes} dk`;
+  return `${Math.floor(minutes / 60)} sa ${minutes % 60} dk`;
+}
+
+function icon(name, cls="w-5 h-5") {
+  return `<i data-lucide="${name}" class="${cls}"></i>`;
+}
+
+function refreshIcons() {
+  if (window.lucide) lucide.createIcons();
+}
+
+function isFavorite(id) {
+  return state.favorites.includes(Number(id));
+}
+
+function isCompleted(id) {
+  return state.completed.includes(Number(id));
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message, type="success") {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+
+  const icons = {
+    success: "check-circle",
+    error: "x-circle",
+    warning: "alert-triangle",
+    info: "info"
+  };
+
+  const el = document.createElement("div");
+  el.className = "toast pointer-events-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xl rounded-2xl p-4 flex items-center gap-3";
+  el.innerHTML = `
+    <div class="text-${type === "error" ? "red" : type === "warning" ? "amber" : type === "info" ? "blue" : "emerald"}-500">
+      ${icon(icons[type], "w-5 h-5")}
+    </div>
+    <div class="flex-1 text-sm font-medium">${escapeHTML(message)}</div>
+    <button class="text-slate-400" onclick="this.parentElement.remove()">×</button>
+  `;
+
+  container.appendChild(el);
+  refreshIcons();
+
+  setTimeout(() => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(10px)";
+    setTimeout(() => el.remove(), 250);
+  }, 3500);
+}
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function applyTheme() {
+  const theme = state.settings.theme || "dark";
+  document.documentElement.classList.toggle("dark", theme === "dark");
+}
+
+function toggleTheme() {
+  state.settings.theme = document.documentElement.classList.contains("dark")
+    ? "light"
+    : "dark";
+
+  applyTheme();
+  saveState();
+  toast(state.settings.theme === "dark" ? "Koyu tema aktif." : "Açık tema aktif.", "info");
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+function toggleMobileMenu() {
+  const menu = document.getElementById("mobile-menu");
+  menu.classList.toggle("hidden");
+}
+
+function mobileNavigate(page, param) {
+  document.getElementById("mobile-menu").classList.add("hidden");
+  navigate(page, param);
+}
+
+/* =========================================================
+   DAILY SYSTEM
+========================================================= */
+
+function todayKey() {
+  return new Date().toISOString().slice(0,10);
+}
+
+function updateDailySystem() {
+  const today = todayKey();
+
+  if (state.dailyDate !== today) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayKey = yesterday.toISOString().slice(0,10);
+
+    if (state.lastActive === yesterdayKey) {
+      state.streak++;
+    } else if (state.lastActive !== today) {
+      state.streak = 1;
+    }
+
+    state.dailyDate = today;
+    state.dailyCompleted = 0;
+    state.lastActive = today;
+
+    addNotification("🔥", `Günlük serin: ${state.streak} gün!`);
+    saveState();
+  }
+}
+
+function dailyProgress() {
+  return Math.min(100, Math.round(state.dailyCompleted / state.dailyGoal * 100));
+}
+
+/* =========================================================
+   XP / BADGES
+========================================================= */
+
+function addXP(amount, reason) {
+  state.xp += amount;
+  toast(`+${amount} XP — ${reason}`, "success");
+
+  checkBadges();
+  saveState();
+}
+
+function checkBadges() {
+  const newlyEarned = [];
+
+  badges.forEach(badge => {
+    if (!state.badges.includes(badge.id) && badge.check(state)) {
+      state.badges.push(badge.id);
+      newlyEarned.push(badge);
+    }
+  });
+
+  newlyEarned.forEach(b => {
+    addNotification("🏆", `Yeni rozet kazandın: ${b.name}`);
+    toast(`🏆 ${b.name} rozeti açıldı!`);
+  });
+
+  saveState();
+}
+
+function addNotification(emoji, text) {
+  state.notifications.unshift({
+    id: Date.now() + Math.random(),
+    emoji,
+    text,
+    read: false,
+    date: new Date().toISOString()
+  });
+
+  state.notifications = state.notifications.slice(0, 50);
+}
+
+/* =========================================================
+   LESSON ACTIONS
+========================================================= */
+
+function completeLesson(id) {
+  id = Number(id);
+
+  if (state.completed.includes(id)) {
+    toast("Bu dersi zaten tamamladın.", "info");
+    return;
+  }
+
+  state.completed.push(id);
+  state.dailyCompleted++;
+
+  const lesson = getLesson(id);
+  addXP(100, `"${lesson?.title || "Ders"}" tamamlandı`);
+
+  addNotification("🎓", `${lesson?.title || "Ders"} tamamlandı.`);
+
+  saveState();
+  renderLessonDetail(id);
+}
+
+function toggleFavorite(id) {
+  id = Number(id);
+
+  if (state.favorites.includes(id)) {
+    state.favorites = state.favorites.filter(x => x !== id);
+    toast("Favorilerden çıkarıldı.", "info");
+  } else {
+    state.favorites.push(id);
+    addXP(10, "Ders favorilere eklendi");
+    toast("Favorilere eklendi.");
+  }
+
+  saveState();
+  refreshCurrentPage();
+}
+
+function toggleLater(id) {
+  id = Number(id);
+
+  if (state.later.includes(id)) {
+    state.later = state.later.filter(x => x !== id);
+    toast("Sonra izle listesinden çıkarıldı.", "info");
+  } else {
+    state.later.push(id);
+    toast("Sonra izle listesine eklendi.");
+  }
+
+  saveState();
+  refreshCurrentPage();
+}
+
+function saveNote(id) {
+  const input = document.getElementById("lesson-note");
+  if (!input) return;
+
+  const text = input.value.trim();
+
+  if (text) {
+    state.notes[id] = text;
+    toast("Not kaydedildi.");
+  } else {
+    delete state.notes[id];
+    toast("Not silindi.", "info");
+  }
+
+  saveState();
+}
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function addHistory(id) {
+  id = Number(id);
+
+  state.history = [
+    id,
+    ...state.history.filter(x => x !== id)
+  ].slice(0, 8);
+
+  saveState();
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchLessons(query, filters={}) {
+  const q = String(query || "").toLowerCase().trim();
+
+  let result = allLessons().filter(l => {
+    const searchable = [
+      l.title,
+      l.description,
+      l.academy,
+      l.level,
+      ...(l.tags || [])
+    ].join(" ").toLowerCase();
+
+    return !q || searchable.includes(q);
+  });
+
+  if (filters.academy && filters.academy !== "all") {
+    result = result.filter(l => l.academy === filters.academy);
+  }
+
+  if (filters.level && filters.level !== "all") {
+    result = result.filter(l => l.level === filters.level);
+  }
+
+  if (filters.status === "completed") {
+    result = result.filter(l => isCompleted(l.id));
+  }
+
+  if (filters.status === "pending") {
+    result = result.filter(l => !isCompleted(l.id));
+  }
+
+  if (filters.favorite) {
+    result = result.filter(l => isFavorite(l.id));
+  }
+
+  if (filters.sort === "az") {
+    result.sort((a,b) => a.title.localeCompare(b.title, "tr"));
+  }
+
+  if (filters.sort === "duration") {
+    result.sort((a,b) => a.duration - b.duration);
+  }
+
+  if (filters.sort === "progress") {
+    result.sort((a,b) => Number(isCompleted(b.id)) - Number(isCompleted(a.id)));
+  }
+
+  return result;
+}
+
+/* =========================================================
+   COURSE CARD
+========================================================= */
+
+function lessonCard(lesson) {
+  const academy = academies[lesson.academy];
+  const completed = isCompleted(lesson.id);
+  const favorite = isFavorite(lesson.id);
+
+  return `
+    <article class="card bg-white dark:bg-slate-900 rounded-2xl p-5">
+      <div class="flex justify-between items-start gap-3">
+        <div class="w-12 h-12 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500">
+          ${icon(lesson.icon || "book-open", "w-6 h-6")}
+        </div>
+
+        <button onclick="event.stopPropagation();toggleFavorite(${lesson.id})"
+          class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 ${favorite ? 'text-red-500' : 'text-slate-400'}">
+          ${icon(favorite ? "heart" : "heart", "w-5 h-5")}
+        </button>
+      </div>
+
+      <button onclick="navigate('lesson',${lesson.id})" class="text-left w-full mt-4">
+        <div class="text-xs font-bold text-brand-500 uppercase tracking-wide">
+          ${escapeHTML(academy?.title || lesson.academy)}
+        </div>
+
+        <h3 class="text-lg font-black mt-1">${escapeHTML(lesson.title)}</h3>
+
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-2">
+          ${escapeHTML(lesson.description)}
+        </p>
+      </button>
+
+      <div class="flex flex-wrap gap-2 mt-4">
+        <span class="text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800">
+          ${escapeHTML(lesson.level)}
+        </span>
+
+        <span class="text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800">
+          ${lesson.duration} dk
+        </span>
+
+        ${completed ? `
+          <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-500">
+            ✓ Tamamlandı
+          </span>
+        ` : ""}
+      </div>
+
+      <div class="mt-5">
+        <div class="flex justify-between text-xs text-slate-500 mb-1">
+          <span>İlerleme</span>
+          <span>${completed ? 100 : 0}%</span>
+        </div>
+
+        <div class="h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div class="progress h-full bg-brand-500 rounded-full" style="width:${completed ? 100 : 0}%"></div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function renderHome() {
+  updateDailySystem();
+
+  const continueLesson = state.history
+    .map(id => getLesson(id))
+    .find(l => l && !isCompleted(l.id));
+
+  const historyLessons = state.history
+    .map(id => getLesson(id))
+    .filter(Boolean)
+    .slice(0,4);
+
+  const favorites = state.favorites
+    .map(id => getLesson(id))
+    .filter(Boolean)
+    .slice(0,4);
+
+  const recommended = allLessons()
+    .filter(l => !isCompleted(l.id))
+    .slice(0,4);
+
+  return `
+    <div class="page-enter">
+      <section class="relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/10 text-brand-500 text-sm font-bold mb-5">
+                🚀 Yeni nesil öğrenme platformu
+              </div>
+
+              <h1 class="hero-title text-5xl md:text-6xl font-black leading-tight">
+                Öğren.
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-purple-500">
+                  Üret.
+                </span>
+                Geliş.
+              </h1>
+
+              <p class="text-lg text-slate-500 dark:text-slate-400 mt-6 max-w-xl">
+                CapCut, sosyal medya, kodlama ve yapay zeka konularını
+                kendi hızında öğren.
+              </p>
+
+              <div class="mt-8 relative max-w-xl">
+                <div class="absolute inset-y-0 left-4 flex items-center text-slate-400">
+                  ${icon("search","w-5 h-5")}
+                </div>
+
+                <input
+                  id="home-search"
+                  oninput="liveSearch(this.value)"
+                  onkeydown="if(event.key==='Enter') navigate('search',this.value)"
+                  placeholder="Ders, konu veya beceri ara..."
+                  class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg"
+                />
+
+                <div id="live-search-results" class="absolute hidden left-0 right-0 top-[calc(100%+8px)] z-30"></div>
+              </div>
+
+              <div class="flex flex-wrap gap-3 mt-5">
+                <button onclick="navigate('categories')" class="px-5 py-3 rounded-xl bg-brand-600 text-white font-bold">
+                  Akademileri Keşfet
+                </button>
+
+                <button onclick="navigate('ai')" class="px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 font-bold">
+                  🤖 AI Koç
+                </button>
+              </div>
+            </div>
+
+            <div class="hidden lg:flex justify-center">
+              <div class="relative animate-float">
+                <div class="w-72 h-72 rounded-[3rem] bg-gradient-to-br from-brand-500 to-purple-600 rotate-6 opacity-80"></div>
+                <div class="absolute inset-8 rounded-[2rem] bg-slate-950 shadow-2xl -rotate-3 flex items-center justify-center">
+                  <div class="text-center">
+                    <div class="text-7xl">🧠</div>
+                    <div class="text-white font-black text-2xl mt-3">BilgiKaynağı</div>
+                    <div class="text-slate-400 text-sm">Learn smarter.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      ${continueLesson ? `
+      <section class="max-w-7xl mx-auto px-4 mb-12">
+        <div class="rounded-3xl bg-gradient-to-r from-brand-600 to-purple-600 text-white p-6 md:p-8">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
+            <div>
+              <div class="text-white/70 text-sm font-bold">KALDIĞIN YERDEN DEVAM ET</div>
+              <h2 class="text-2xl font-black mt-1">${escapeHTML(continueLesson.title)}</h2>
+              <p class="text-white/70 mt-1">${continueLesson.duration} dakikalık ders</p>
+            </div>
+
+            <button onclick="navigate('lesson',${continueLesson.id})"
+              class="bg-white text-brand-700 px-5 py-3 rounded-xl font-black">
+              Devam Et →
+            </button>
+          </div>
+        </div>
+      </section>
+      ` : ""}
+
+      <section class="max-w-7xl mx-auto px-4 mb-12">
+        <div class="flex items-end justify-between mb-5">
+          <div>
+            <p class="text-brand-500 font-bold text-sm">SANA ÖZEL</p>
+            <h2 class="text-2xl font-black">Önerilen Dersler</h2>
+          </div>
+          <button onclick="navigate('categories')" class="text-sm text-brand-500 font-bold">Tümünü gör →</button>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          ${recommended.map(lessonCard).join("")}
+        </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-4 mb-12">
+        <div class="flex items-end justify-between mb-5">
+          <div>
+            <p class="text-brand-500 font-bold text-sm">AKADEMİLER</p>
+            <h2 class="text-2xl font-black">Öğrenmeye Başla</h2>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5">
+          ${Object.entries(academies).map(([key,a]) => `
+            <button onclick="navigate('${key}')" class="text-left rounded-3xl p-6 bg-gradient-to-br ${a.color} text-white shadow-lg">
+              <div class="text-5xl">${a.icon}</div>
+              <h3 class="text-2xl font-black mt-5">${a.title}</h3>
+              <p class="text-white/80 text-sm mt-2">${a.description}</p>
+              <div class="mt-6 flex items-center justify-between">
+                <span>${academyLessons(key).length} ders</span>
+                <span>${academyProgress(key)}%</span>
+              </div>
+              <div class="h-1.5 bg-white/20 rounded-full mt-2">
+                <div class="h-full bg-white rounded-full" style="width:${academyProgress(key)}%"></div>
+              </div>
+            </button>
+          `).join("")}
+        </div>
+      </section>
+
+      ${historyLessons.length ? `
+      <section class="max-w-7xl mx-auto px-4 mb-12">
+        <h2 class="text-2xl font-black mb-5">🕘 Son Görüntülenenler</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          ${historyLessons.map(lessonCard).join("")}
+        </div>
+      </section>
+      ` : ""}
+
+      ${favorites.length ? `
+      <section class="max-w-7xl mx-auto px-4 mb-12">
+        <h2 class="text-2xl font-black mb-5">❤️ Favorilerin</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          ${favorites.map(lessonCard).join("")}
+        </div>
+      </section>
+      ` : ""}
+
+      <section class="max-w-7xl mx-auto px-4 pb-16">
+        <div class="grid md:grid-cols-3 gap-5">
+          ${statCard("Flame","Günlük Seri",state.streak + " gün","🔥")}
+          ${statCard("Star","Toplam XP",state.xp,"⭐")}
+          ${statCard("BookOpen","Tamamlanan Ders",state.completed.length,"🎓")}
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function statCard(iconName,title,value,emoji) {
+  return `
+    <div class="card bg-white dark:bg-slate-900 rounded-2xl p-6">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-brand-500/10 flex items-center justify-center text-2xl">${emoji}</div>
+        <div>
+          <div class="text-sm text-slate-500">${title}</div>
+          <div class="text-2xl font-black">${value}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+function renderCategories() {
+  return `
+    <div class="page-enter max-w-7xl mx-auto px-4 py-12">
+      <div class="max-w-2xl mb-10">
+        <p class="text-brand-500 font-bold text-sm">KATEGORİLER</p>
+        <h1 class="text-4xl font-black mt-2">Öğrenme alanını seç.</h1>
+        <p class="text-slate-500 mt-3">İlgi alanına göre bir akademi seç ve ilerlemeye başla.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        ${Object.entries(academies).map(([key,a]) => `
+          <button onclick="navigate('${key}')" class="text-left card bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+            <div class="h-36 bg-gradient-to-br ${a.color} flex items-center justify-center text-7xl">${a.icon}</div>
+            <div class="p-6">
+              <h2 class="text-2xl font-black">${a.title}</h2>
+              <p class="text-slate-500 mt-2">${a.description}</p>
+
+              <div class="mt-6">
+                <div class="flex justify-between text-sm mb-2">
+                  <span>${academyLessons(key).length} ders</span>
+                  <b>${academyProgress(key)}%</b>
+                </div>
+                <div class="h-2 rounded-full bg-slate-100 dark:bg-slate-800">
+                  <div class="h-full rounded-full bg-brand-500" style="width:${academyProgress(key)}%"></div>
+                </div>
+              </div>
+
+              <div class="mt-6 text-brand-500 font-bold">Akademiye Git →</div>
+            </div>
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================
+   ACADEMY
+========================================================= */
+
+function renderAcademy(key) {
+  const academy = academies[key];
+  const lessons = academyLessons(key);
+
+  return `
+    <div class="page-enter max-w-7xl mx-auto px-4 py-10">
+      <button onclick="navigate('categories')" class="text-sm text-slate-500 hover:text-brand-500 mb-6">
+        ← Kategoriler
+      </button>
+
+      <div class="rounded-3xl bg-gradient-to-br ${academy.color} text-white p-7 md:p-10">
+        <div class="text-6xl">${academy.icon}</div>
+        <h1 class="text-4xl font-black mt-5">${academy.title}</h1>
+        <p class="text-white/80 mt-2 max-w-2xl">${academy.description}</p>
+
+        <div class="grid sm:grid-cols-3 gap-4 mt-8">
+          <div class="bg-white/10 rounded-2xl p-4">
+            <div class="text-white/60 text-sm">Ders</div>
+            <div class="text-2xl font-black">${lessons.length}</div>
+          </div>
+
+          <div class="bg-white/10 rounded-2xl p-4">
+            <div class="text-white/60 text-sm">Tamamlanan</div>
+            <div class="text-2xl font-black">${lessons.filter(l=>isCompleted(l.id)).length}</div>
+          </div>
+
+          <div class="bg-white/10 rounded-2xl p-4">
+            <div class="text-white/60 text-sm">İlerleme</div>
+            <div class="text-2xl font-black">${academyProgress(key)}%</div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <div class="h-2 bg-white/20 rounded-full">
+            <div class="h-full bg-white rounded-full" style="width:${academyProgress(key)}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-3 mt-8">
+        <input id="academy-filter-search" oninput="filterAcademyCards()"
+          placeholder="Bu akademide ara..."
+          class="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+
+        <select id="academy-level" onchange="filterAcademyCards()"
+          class="px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <option value="all">Tüm seviyeler</option>
+          <option value="Başlangıç">Başlangıç</option>
+          <option value="Orta">Orta</option>
+          <option value="İleri">İleri</option>
+        </select>
+      </div>
+
+      <div id="academy-lessons" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+        ${lessons.map(lessonCard).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function filterAcademyCards() {
+  const page = document.getElementById("academy-lessons");
+  if (!page) return;
+
+  const q = (document.getElementById("academy-filter-search")?.value || "").toLowerCase();
+  const level = document.getElementById("academy-level")?.value || "all";
+
+  const cards = page.querySelectorAll("article");
+
+  academyLessons(currentRoute.param).forEach((lesson, i) => {
+    const matchesText =
+      lesson.title.toLowerCase().includes(q) ||
+      lesson.description.toLowerCase().includes(q);
+
+    const matchesLevel = level === "all" || lesson.level === level;
+
+    if (cards[i]) {
+      cards[i].style.display = matchesText && matchesLevel ? "" : "none";
+    }
+  });
+}
+
+/* =========================================================
+   LESSON DETAIL
+========================================================= */
+
+let lessonTimers = {};
+
+function renderLessonDetail(id) {
+  const lesson = getLesson(id);
+
+  if (!lesson) {
+    render404();
+    return;
+  }
+
+  addHistory(lesson.id);
+
+  const completed = isCompleted(lesson.id);
+  const favorite = isFavorite(lesson.id);
+  const note = state.notes[lesson.id] || "";
+  const score = state.quizScores[lesson.id];
+
+  app.innerHTML = `
+    <div class="page-enter max-w-5xl mx-auto px-4 py-10">
+      <div class="flex flex-wrap items-center gap-2 text-sm text-slate-500 mb-7">
+        <button onclick="navigate('home')" class="hover:text-brand-500">Ana Sayfa</button>
+        <span>›</span>
+        <button onclick="navigate('${lesson.academy}')" class="hover:text-brand-500">
+          ${escapeHTML(academies[lesson.academy]?.title || lesson.academy)}
+        </button>
+        <span>›</span>
+        <span>${escapeHTML(lesson.title)}</span>
+      </div>
+
+      <div class="grid lg:grid-cols-[1fr_300px] gap-8">
+
+        <article>
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <span class="inline-flex px-3 py-1 rounded-full bg-brand-500/10 text-brand-500 text-xs font-bold">
+                ${escapeHTML(lesson.level)}
+              </span>
+
+              <h1 class="text-4xl md:text-5xl font-black mt-4">${escapeHTML(lesson.title)}</h1>
+              <p class="text-lg text-slate-500 dark:text-slate-400 mt-3">${escapeHTML(lesson.description)}</p>
+            </div>
+
+            <button onclick="toggleFavorite(${lesson.id})"
+              class="shrink-0 p-3 rounded-xl ${favorite ? 'bg-red-500/10 text-red-500' : 'bg-slate-100 dark:bg-slate-900'}">
+              ${icon("heart", "w-5 h-5")}
+            </button>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mt-5">
+            ${(lesson.tags || []).map(t => `
+              <span class="text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-900 text-slate-500">
+                #${escapeHTML(t)}
+              </span>
+            `).join("")}
+          </div>
+
+          <div class="flex flex-wrap gap-3 mt-6">
+            <span class="inline-flex items-center gap-2 text-sm text-slate-500">
+              ${icon("clock","w-4 h-4")} ${lesson.duration} dakika
+            </span>
+
+            <button onclick="toggleLater(${lesson.id})" class="text-sm text-brand-500 font-bold">
+              ${state.later.includes(lesson.id) ? "✓ Sonra İzle'de" : "+ Sonra İzle"}
+            </button>
+
+            <button onclick="copyLessonLink(${lesson.id})" class="text-sm text-brand-500 font-bold">
+              🔗 Bağlantıyı Kopyala
+            </button>
+          </div>
+
+          <div class="mt-10 prose-custom">
+            ${lesson.content}
+          </div>
+
+          <div class="mt-10 p-6 rounded-3xl bg-slate-100 dark:bg-slate-900">
+            <div class="flex items-center justify-between gap-4 mb-4">
+              <div>
+                <h2 class="text-xl font-black">📝 Ders Notlarım</h2>
+                <p class="text-sm text-slate-500 mt-1">Bu derse özel notların burada saklanır.</p>
+              </div>
+            </div>
+
+            <textarea id="lesson-note" rows="6"
+              class="w-full p-4 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
+              placeholder="Bu dersten öğrendiklerini yaz...">${escapeHTML(note)}</textarea>
+
+            <div class="flex justify-end mt-3">
+              <button onclick="saveNote(${lesson.id})"
+                class="px-4 py-2.5 rounded-xl bg-brand-600 text-white font-bold">
+                Notu Kaydet
+              </button>
+            </div>
+          </div>
+
+          ${renderQuiz(lesson)}
+
+          <div class="mt-8">
+            <button onclick="${completed ? `toast('Bu ders zaten tamamlandı.','info')` : `completeLesson(${lesson.id})`}"
+              class="w-full py-4 rounded-2xl font-black text-lg ${completed ? 'bg-emerald-500/10 text-emerald-500' : 'bg-brand-600 text-white hover:bg-brand-700'}">
+              ${completed ? "✓ Ders Tamamlandı" : "Dersi Tamamla • +100 XP"}
+            </button>
+          </div>
+        </article>
+
+        <aside>
+          <div class="sticky top-24 space-y-4">
+            <div class="card bg-white dark:bg-slate-900 rounded-2xl p-5">
+              <div class="text-sm text-slate-500">Ders İlerlemesi</div>
+              <div class="text-3xl font-black mt-1">${completed ? 100 : 0}%</div>
+              <div class="h-2 bg-slate-100 dark:bg-slate-800 rounded-full mt-3">
+                <div class="h-full bg-brand-500 rounded-full" style="width:${completed ? 100 : 0}%"></div>
+              </div>
+            </div>
+
+            <div class="card bg-white dark:bg-slate-900 rounded-2xl p-5">
+              <div class="text-sm text-slate-500">Quiz Skoru</div>
+              <div class="text-3xl font-black mt-1">${score !== undefined ? score + "%" : "—"}</div>
+            </div>
+
+            <div class="card bg-white dark:bg-slate-900 rounded-2xl p-5">
+              <div class="font-black">Bu akademi</div>
+              <div class="text-sm text-slate-500 mt-1">
+                ${academies[lesson.academy]?.title}
+              </div>
+              <button onclick="navigate('${lesson.academy}')" class="mt-4 text-brand-500 font-bold text-sm">
+                Akademiye git →
+              </button>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  `;
+
+  startLessonTimer(lesson.id);
+  refreshIcons();
+}
+
+function startLessonTimer(id) {
+  if (lessonTimers[id]) clearInterval(lessonTimers[id]);
+
+  lessonTimers[id] = setInterval(() => {
+    state.learningTime[id] = (state.learningTime[id] || 0) + 1;
+
+    if (state.learningTime[id] % 60 === 0) {
+      saveState();
+    }
+  }, 1000);
+}
+
+function copyLessonLink(id) {
+  const url = location.href.split("#")[0] + "#lesson/" + id;
+
+  navigator.clipboard?.writeText(url)
+    .then(() => toast("Ders bağlantısı kopyalandı."))
+    .catch(() => toast("Bağlantı kopyalanamadı.", "error"));
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+function renderQuiz(lesson) {
+  if (!lesson.quiz?.length) return "";
+
+  const previous = state.quizScores[lesson.id];
+
+  return `
+    <div class="mt-10">
+      <div class="mb-5">
+        <p class="text-brand-500 font-bold text-sm">KENDİNİ TEST ET</p>
+        <h2 class="text-2xl font-black">Mini Quiz</h2>
+        ${previous !== undefined ? `
+          <p class="text-sm text-slate-500 mt-1">Son skorun: ${previous}%</p>
+        ` : ""}
+      </div>
+
+      <div class="space-y-5">
+        ${lesson.quiz.map((q,i) => `
+          <div class="card bg-white dark:bg-slate-900 rounded-2xl p-5">
+            <div class="font-bold">${i+1}. ${escapeHTML(q.q)}</div>
+
+            <div class="grid gap-2 mt-4">
+              ${q.options.map((opt,j) => `
+                <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 cursor-pointer">
+                  <input type="radio" name="quiz-${lesson.id}-${i}" value="${j}">
+                  <span>${escapeHTML(opt)}</span>
+                </label>
+              `).join("")}
+            </div>
+          </div>
+        `).join("")}
+      </div>
+
+      <button onclick="submitQuiz(${lesson.id})"
+        class="mt-5 px-5 py-3 rounded-xl bg-brand-600 text-white font-bold">
+        Quiz'i Bitir
+      </button>
+
+      <div id="quiz-result-${lesson.id}" class="mt-4"></div>
+    </div>
+  `;
+}
+
+function submitQuiz(id) {
+  const lesson = getLesson(id);
+  if (!lesson?.quiz?.length) return;
+
+  let correct = 0;
+  let answered = 0;
+
+  lesson.quiz.forEach((q,i) => {
+    const selected = document.querySelector(`input[name="quiz-${id}-${i}"]:checked`);
+
+    if (selected) {
+      answered++;
+      if (Number(selected.value) === q.answer) correct++;
+    }
+  });
+
+  if (answered < lesson.quiz.length) {
+    toast("Lütfen bütün soruları cevapla.", "warning");
+    return;
+  }
+
+  const score = Math.round(correct / lesson.quiz.length * 100);
+  const old = state.quizScores[id] || 0;
+
+  if (score > old) {
+    state.quizScores[id] = score;
+  }
+
+  const xp = score === 100 ? 100 : 50;
+  addXP(xp, `Quiz tamamlandı (${score}%)`);
+
+  const result = document.getElementById(`quiz-result-${id}`);
+
+  result.innerHTML = `
+    <div class="rounded-2xl p-5 ${score >= 70 ? 'bg-emerald-500/10' : 'bg-amber-500/10'}">
+      <div class="text-3xl font-black">${score}%</div>
+      <p class="mt-1">${correct} / ${lesson.quiz.length} doğru.</p>
+      <div class="mt-4 space-y-2 text-sm">
+        ${lesson.quiz.map((q,i) => `
+          <div>
+            <b>${i+1}. ${escapeHTML(q.explanation)}</b>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+
+  checkBadges();
+  saveState();
+}
+
+/* =========================================================
+   SEARCH PAGE
+========================================================= */
+
+function renderSearch(query="") {
+  const results = searchLessons(query);
+
+  return `
+    <div class="page-enter max-w-7xl mx-auto px-4 py-10">
+      <div class="max-w-3xl">
+        <p class="text-brand-500 font-bold text-sm">ARAMA</p>
+        <h1 class="text-4xl font-black mt-2">Dersleri keşfet.</h1>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-3 mt-8">
+        <input id="search-query" value="${escapeHTML(query)}"
+          onkeydown="if(event.key==='Enter')runAdvancedSearch()"
+          placeholder="Ne öğrenmek istiyorsun?"
+          class="md:col-span-2 px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+
+        <select id="search-academy" class="px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <option value="all">Tüm akademiler</option>
+          <option value="capcut">CapCut</option>
+          <option value="social">Sosyal Medya</option>
+          <option value="coding">Kodlama</option>
+        </select>
+
+        <select id="search-level" class="px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <option value="all">Tüm seviyeler</option>
+          <option value="Başlangıç">Başlangıç</option>
+          <option value="Orta">Orta</option>
+          <option value="İleri">İleri</option>
+        </select>
+      </div>
+
+      <div class="flex flex-wrap gap-3 mt-3">
+        <select id="search-status" class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm">
+          <option value="all">Tüm durumlar</option>
+          <option value="completed">Tamamlananlar</option>
+          <option value="pending">Devam edenler</option>
+        </select>
+
+        <select id="search-sort" class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm">
+          <option value="">Varsayılan sıralama</option>
+          <option value="az">A-Z</option>
+          <option value="duration">Süre</option>
+          <option value="progress">İlerleme</option>
+        </select>
+
+        <button onclick="runAdvancedSearch()" class="px-5 py-2.5 rounded-xl bg-brand-600 text-white font-bold">
+          Ara
+        </button>
+      </div>
+
+      <div id="search-results" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+        ${results.length ? results.map(lessonCard).join("") : `
+          <div class="col-span-full text-center py-16">
+            <div class="text-5xl">🔍</div>
+            <h3 class="text-xl font-black mt-4">Sonuç bulunamadı</h3>
+            <p class="text-slate-500 mt-2">Başka bir kelime deneyebilirsin.</p>
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function runAdvancedSearch() {
+  const query = document.getElementById("search-query")?.value || "";
+  const filters = {
+    academy: document.getElementById("search-academy")?.value || "all",
+    level: document.getElementById("search-level")?.value || "all",
+    status: document.getElementById("search-status")?.value || "all",
+    sort: document.getElementById("search-sort")?.value || ""
+  };
+
+  const results = searchLessons(query, filters);
+  const target = document.getElementById("search-results");
+
+  if (target) {
+    target.innerHTML = results.length
+      ? results.map(lessonCard).join("")
+      : `<div class="col-span-full text-center py-16 text-slate-500">Sonuç bulunamadı.</div>`;
+
+    refreshIcons();
+  }
+}
+
+function liveSearch(query) {
+  const box = document.getElementById("live-search-results");
+  if (!box) return;
+
+  if (!query.trim()) {
+    box.classList.add("hidden");
+    return;
+  }
+
+  const results = searchLessons(query).slice(0,5);
+
+  box.innerHTML = `
+    <div class="glass rounded-2xl shadow-2xl overflow-hidden">
+      ${results.length ? results.map(l => `
+        <button onclick="navigate('lesson',${l.id})"
+          class="w-full text-left p-4 hover:bg-slate-100 dark:hover:bg-slate-800 border-b last:border-0 border-slate-200 dark:border-slate-800">
+          <div class="font-bold">${escapeHTML(l.title)}</div>
+          <div class="text-xs text-slate-500 mt-1">${escapeHTML(academies[l.academy]?.title || "")}</div>
+        </button>
+      `).join("") : `
+        <div class="p-4 text-sm text-slate-500">Sonuç bulunamadı.</div>
+      `}
+    </div>
+  `;
+
+  box.classList.remove("hidden");
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard() {
+  const total = allLessons().length;
+  const overall = total ? Math.round(state.completed.length / total * 100) : 0;
+  const quizCount = Object.keys(state.quizScores).length;
+  const avgQuiz = quizCount
+    ? Math.round(Object.values(state.quizScores).reduce((a,b)=>a+b,0)/quizCount)
+    : 0;
+
+  return `
+    <div class="page-enter max-w-7xl mx-auto px-4 py-10">
+
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div>
+          <p class="text-brand-500 font-bold text-sm">PANELİM</p>
+          <h1 class="text-4xl font-black mt-1">
+            Hoş geldin, ${escapeHTML(state.profile.username)} 👋
+          </h1>
+          <p class="text-slate-500 mt-2">Öğrenme yolculuğundaki durumun.</p>
+        </div>
+
+        <button onclick="navigate('profile')" class="px-5 py-3 rounded-xl bg-brand-600 text-white font-bold">
+          Profilim
+        </button>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+        ${statCard("","XP",state.xp,"⭐")}
+        ${statCard("","Seviye",getLevel(),"🎯")}
+        ${statCard("","Tamamlanan",state.completed.length,"🎓")}
+        ${statCard("","Seri",state.streak + " gün","🔥")}
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6 mt-6">
+
+        <div class="lg:col-span-2 card bg-white dark:bg-slate-900 rounded-3xl p-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <h2 class="text-xl font-black">Genel İlerleme</h2>
+              <p class="text-sm text-slate-500 mt-1">${state.completed.length} / ${total} ders tamamlandı</p>
+            </div>
+            <div class="text-3xl font-black text-brand-500">${overall}%</div>
+          </div>
+
+          <div class="h-3 bg-slate-100 dark:bg-slate-800 rounded-full mt-6 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-brand-500 to-purple-500 rounded-full" style="width:${overall}%"></div>
+          </div>
+
+          <div class="grid sm:grid-cols-3 gap-4 mt-8">
+            ${Object.entries(academies).map(([key,a]) => `
+              <button onclick="navigate('${key}')" class="text-left p-4 rounded-2xl bg-slate-50 dark:bg-slate-950">
+                <div class="text-2xl">${a.icon}</div>
+                <div class="font-bold mt-2">${a.title}</div>
+                <div class="text-sm text-slate-500">${academyProgress(key)}%</div>
+                <div class="h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full mt-2">
+                  <div class="h-full bg-brand-500 rounded-full" style="width:${academyProgress(key)}%"></div>
+                </div>
+              </button>
+            `).join("")}
+          </div>
+        </div>
+
+        <div class="card bg-white dark:bg-slate-900 rounded-3xl p-6">
+          <h2 class="text-xl font-black">🎯 Günlük Hedef</h2>
+          <p class="text-sm text-slate-500 mt-1">${state.dailyCompleted}/${state.dailyGoal} görev tamamlandı</p>
+
+          <div class="relative w-32 h-32 mx-auto my-7">
+            <div class="w-full h-full rounded-full border-[12px] border-slate-100 dark:border-slate-800"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-2xl font-black">
+              ${dailyProgress()}%
+            </div>
+          </div>
+
+          <button onclick="changeDailyGoal()" class="w-full py-3 rounded-xl border border-slate-200 dark:border-slate-700 font-bold">
+            Hedefi Değiştir
+          </button>
+        </div>
+
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5 mt-6">
+        ${statCard("","Quiz Ortalaması",avgQuiz + "%","🧠")}
+        ${statCard("","Quiz Sayısı",quizCount,"📝")}
+        ${statCard("","Öğrenme Süresi",formatMinutes(Math.round(Object.values(state.learningTime).reduce((a,b)=>a+b,0)/60)),"⏱️")}
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6 mt-6">
+        <div class="card bg-white dark:bg-slate-900 rounded-3xl p-6">
+          <div class="flex justify-between items-center">
+            <h2 class="text-xl font-black">🏆 Rozetler</h2>
+            <button onclick="navigate('achievements')" class="text-brand-500 text-sm font-bold">Tümü →</button>
+          </div>
+
+          <div class="grid grid-cols-4 gap-3 mt-5">
+            ${badges.slice(0,8).map(b => `
+              <div class="text-center p-3 rounded-2xl ${state.badges.includes(b.id) ? 'bg-brand-500/10' : 'bg-slate-100 dark:bg-slate-950 opacity-40'}">
+                <div class="text-3xl">${b.icon}</div>
+                <div class="text-[11px] font-bold mt-1">${b.name}</div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+
+        <div class="card bg-white dark:bg-slate-900 rounded-3xl p-6">
+          <h2 class="text-xl font-black">🔥 Öğrenme Serisi</h2>
+          <div class="text-5xl font-black text-brand-500 mt-5">${state.streak}</div>
+          <div class="text-slate-500 mt-1">gün üst üste</div>
+
+          <div class="grid grid-cols-7 gap-2 mt-6">
+            ${Array.from({length:14},(_,i) => `
+              <div class="aspect-square rounded-lg ${i < Math.min(state.streak,14) ? 'bg-brand-500' : 'bg-slate-100 dark:bg-slate-800'}"></div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+function changeDailyGoal() {
+  const goals = [1,2,3,5];
+  const index = goals.indexOf(state.dailyGoal);
+  state.dailyGoal = goals[(index + 1) % goals.length];
+  saveState();
+  toast(`Günlük hedef: ${state.dailyGoal} ders`);
+  renderDashboard();
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function renderProfile() {
+  return `
+    <div class="page-enter max-w-5xl mx-auto px-4 py-10">
+      <div class="card bg-white dark:bg-slate-900 rounded-3xl p-7">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <div class="w-28 h-28 rounded-3xl bg-brand-500/10 flex items-center justify-center text-6xl">
+            ${escapeHTML(state.profile.avatar)}
+          </div>
+
+          <div class="flex-1 text-center sm:text-left">
+            <h1 class="text-3xl font-black">${escapeHTML(state.profile.username)}</h1>
+            <p class="text-slate-500 mt-2">${escapeHTML(state.profile.bio)}</p>
+
+            <div class="flex flex-wrap justify-center sm:justify-start gap-3 mt-5">
+              <span class="px-3 py-1.5 rounded-full bg-brand-500/10 text-brand-500 text-sm font-bold">
+                Seviye ${getLevel()}
+              </span>
+              <span class="px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-sm font-bold">
+                ⭐ ${state.xp} XP
+              </span>
+              <span class="px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-sm font-bold">
+                🔥 ${state.streak} gün
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 mt-8">
+          <input id="profile-name" value="${escapeHTML(state.profile.username)}"
+            class="px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
+            placeholder="Kullanıcı adı">
+
+          <input id="profile-avatar" value="${escapeHTML(state.profile.avatar)}"
+            class="px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
+            placeholder="Avatar emoji">
+
+          <textarea id="profile-bio" rows="3"
+            class="md:col-span-2 px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
+            placeholder="Bio">${escapeHTML(state.profile.bio)}</textarea>
+        </div>
+
+        <button onclick="saveProfile()" class="mt-4 px-5 py-3 rounded-xl bg-brand-600 text-white font-bold">
+          Profili Kaydet
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function saveProfile() {
+  state.profile.username = document.getElementById("profile-name").value.trim() || "BilgiKaynağı Öğrencisi";
+  state.profile.avatar = document.getElementById("profile-avatar").value.trim() || "👨‍💻";
+  state.profile.bio = document.getElementById("profile-bio").value.trim();
+
+  saveState();
+  toast("Profil güncellendi.");
+  renderProfile();
+}
+
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+function renderAchievements() {
+  return `
+    <div class="page-enter max-w-6xl mx-auto px-4 py-10">
+      <p class="text-brand-500 font-bold text-sm">BAŞARILAR</p>
+      <h1 class="text-4xl font-black mt-2">Rozet koleksiyonun 🏆</h1>
+      <p class="text-slate-500 mt-2">Yeni rozetler kazanmak için öğrenmeye devam et.</p>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+        ${badges.map(b => {
+          const earned = state.badges.includes(b.id);
+
+          return `
+            <div class="card rounded-3xl p-6 bg-white dark:bg-slate-900 ${earned ? '' : 'opacity-60'}">
+              <div class="text-5xl">${b.icon}</div>
+              <h3 class="font-black text-lg mt-4">${b.name}</h3>
+              <p class="text-sm text-slate-500 mt-2">${b.desc}</p>
+              <div class="mt-4 text-sm font-bold ${earned ? 'text-emerald-500' : 'text-slate-400'}">
+                ${earned ? "✓ Kazanıldı" : "🔒 Kilitli"}
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================
+   FAVORITES
+========================================================= */
+
+function renderFavorites() {
+  const lessons = state.favorites.map(id => getLesson(id)).filter(Boolean);
+
+  return `
+    <div class="page-enter max-w-7xl mx-auto px-4 py-10">
+      <p class="text-brand-500 font-bold text-sm">KAYITLARIN</p>
+      <h1 class="text-4xl font-black mt-2">Favorilerim ❤️</h1>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+        ${lessons.length
+          ? lessons.map(lessonCard).join("")
+          : `<div class="col-span-full text-center py-20 text-slate-500">
+              <div class="text-5xl">❤️</div>
+              <p class="mt-4">Henüz favori dersin yok.</p>
+            </div>`
+        }
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================
+   LATER
+========================================================= */
+
+function renderLater() {
+  const lessons = state.later.map(id => getLesson(id)).filter(Boolean);
+
+  return `
+    <div class="page-enter max-w-7xl mx-auto px-4 py-10">
+      <p class="text-brand-500 font-bold text-sm">KAYITLARIN</p>
+      <h1 class="text-4xl font-black mt-2">Sonra İzle 📚</h1>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+        ${lessons.length
+          ? lessons.map(lessonCard).join("")
+          : `<div class="col-span-full text-center py-20 text-slate-500">
+              Listen boş.
+            </div>`
+        }
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================
+   ROADMAP
+========================================================= */
+
+function renderRoadmap() {
+  const stages = [
+    {name:"Başlangıç", levels:["Başlangıç"]},
+    {name:"Orta Seviye", levels:["Orta"]},
+    {name:"İleri Seviye", levels:["İleri"]}
+  ];
+
+  return `
+    <div class="page-enter max-w-6xl mx-auto px-4 py-10">
+      <p class="text-brand-500 font-bold text-sm">GELİŞİM YOL HARİTASI</p>
+      <h1 class="text-4xl font-black mt-2">Kendi yolunu oluştur. 🗺️</h1>
+      <p class="text-slate-500 mt-2">Başlangıçtan ileri seviyeye doğru ilerle.</p>
+
+      <div class="mt-10 space-y-6">
+        ${stages.map((stage,index) => {
+          const lessons = allLessons().filter(l => stage.levels.includes(l.level));
+          const done = lessons.filter(l=>isCompleted(l.id)).length;
+          const percent = lessons.length ? Math.round(done/lessons.length*100) : 0;
+
+          return `
+            <div class="card bg-white dark:bg-slate-900 rounded-3xl p-6">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-brand-500 text-white flex items-center justify-center text-xl font-black">
+                  ${index+1}
+                </div>
+
+                <div class="flex-1">
+                  <h2 class="text-xl font-black">${stage.name}</h2>
+                  <p class="text-sm text-slate-500">${done}/${lessons.length} ders</p>
+                </div>
+
+                <div class="text-brand-500 font-black">${percent}%</div>
+              </div>
+
+              <div class="h-2 bg-slate-100 dark:bg-slate-800 rounded-full mt-5">
+                <div class="h-full bg-brand-500 rounded-full" style="width:${percent}%"></div>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-3 mt-5">
+                ${lessons.map(l => `
+                  <button onclick="navigate('lesson',${l.id})"
+                    class="text-left p-4 rounded-xl bg-slate-50 dark:bg-slate-950 hover:ring-2 hover:ring-brand-500">
+                    <div class="flex justify-between gap-2">
+                      <span class="font-bold">${escapeHTML(l.title)}</span>
+                      <span>${isCompleted(l.id) ? "✓" : "○"}</span>
+                    </div>
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================
+   AI COACH
+========================================================= */
+
+function renderAI() {
+  const history = state.aiHistory || [];
+
+  return `
+    <div class="page-enter max-w-5xl mx-auto px-4 py-10">
+      <div class="text-center max-w-2xl mx-auto">
+        <div class="text-6xl">🤖</div>
+        <h1 class="text-4xl font-black mt-4">BilgiKaynağı AI Öğrenme Koçu</h1>
+        <p class="text-slate-500 mt-3">
+          Hedefini yaz, sana mevcut derslerden bir öğrenme yolu oluşturalım.
+        </p>
+      </div>
+
+      <div class="card bg-white dark:bg-slate-900 rounded-3xl p-5 mt-8">
+        <div id="ai-chat" class="space-y-4 max-h-[500px] overflow-y-auto p-2">
+          ${history.length ? history.map(m => `
+            <div class="${m.role === 'user' ? 'ml-auto bg-brand-600 text-white' : 'bg-slate-100 dark:bg-slate-800'} max-w-[85%] rounded-2xl p-4">
+              ${escapeHTML(m.text).replace(/\n/g,"<br>")}
+            </div>
+          `).join("") : `
+            <div class="text-center py-12 text-slate-500">
+              <div class="text-4xl">🧠</div>
+              <p class="mt-3">Örneğin: "Web geliştirmeyi öğrenmek istiyorum."</p>
+            </div>
+          `}
+        </div>
+
+        <div class="flex gap-2 mt-5">
+          <input id="ai-input"
+            onkeydown="if(event.key==='Enter')handleAIQuery()"
+            placeholder="Hedefini yaz..."
+            class="flex-1 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+
+          <button onclick="handleAIQuery()" class="px-5 rounded-xl bg-brand-600 text-white font-bold">
+            Gönder
+          </button>
+        </div>
+
+        <button onclick="clearAIHistory()" class="mt-3 text-sm text-red-500">
+          Sohbeti temizle
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function handleAIQuery() {
+  const input = document.getElementById("ai-input");
+  const query = input?.value.trim();
+
+  if (!query) return;
+
+  state.aiHistory.push({
+    role: "user",
+    text: query
+  });
+
+  const q = query.toLowerCase();
+  let recommendations = [];
+
+  if (q.includes("capcut") || q.includes("video") || q.includes("edit")) {
+    recommendations = allLessons().filter(l => l.academy === "capcut").slice(0,4);
+  } else if (
+    q.includes("kod") ||
+    q.includes("html") ||
+    q.includes("css") ||
+    q.includes("javascript") ||
+    q.includes("python") ||
+    q.includes("web")
+  ) {
+    recommendations = allLessons().filter(l => l.academy === "coding").slice(0,5);
+  } else if (
+    q.includes("youtube") ||
+    q.includes("reels") ||
+    q.includes("shorts") ||
+    q.includes("sosyal")
+  ) {
+    recommendations = allLessons().filter(l => l.academy === "social").slice(0,4);
+  } else {
+    recommendations = allLessons()
+      .filter(l => !isCompleted(l.id))
+      .slice(0,4);
+  }
+
+  const response = recommendations.length
+    ? `Hedefin için şu ders sırasını öneriyorum:\n\n${recommendations.map((l,i) =>
+        `${i+1}. ${l.title} — ${l.duration} dk`
+      ).join("\n")}\n\nÖnce ilk dersi tamamlayıp ardından quizini çözebilirsin.`
+    : "Şu an sana uygun bir ders bulamadım.";
+
+  state.aiHistory.push({
+    role: "assistant",
+    text: response
+  });
+
+  saveState();
+  renderAI();
+
+  setTimeout(() => {
+    const chat = document.getElementById("ai-chat");
+    if (chat) chat.scrollTop = chat.scrollHeight;
+  }, 50);
+}
+
+function clearAIHistory() {
+  state.aiHistory = [];
+  saveState();
+  renderAI();
+}
+
+/* =========================================================
+   CODING ACADEMY
+========================================================= */
+
+function renderCodingAcademy() {
+  return `
+    <div class="page-enter max-w-7xl mx-auto px-4 py-10">
+      <div class="rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white p-8">
+        <div class="text-5xl">💻</div>
+        <h1 class="text-4xl font-black mt-4">Kodlama Akademisi</h1>
+        <p class="text-white/80 mt-2">Öğren, kodla ve sonucu anında gör.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-[1fr_380px] gap-6 mt-8">
+        <div class="card bg-slate-950 rounded-3xl overflow-hidden">
+          <div class="flex items-center justify-between p-4 border-b border-slate-800">
+            <div class="text-white font-bold">HTML / CSS / JS Editörü</div>
+
+            <div class="flex gap-2">
+              <button onclick="runCode()" class="px-3 py-2 rounded-lg bg-emerald-600 text-white text-sm font-bold">
+                ▶ Çalıştır
+              </button>
+
+              <button onclick="copyCode()" class="px-3 py-2 rounded-lg bg-slate-800 text-white text-sm">
+                Kopyala
+              </button>
+
+              <button onclick="resetCode()" class="px-3 py-2 rounded-lg bg-slate-800 text-white text-sm">
+                Sıfırla
+              </button>
+            </div>
+          </div>
+
+          <textarea id="code-editor"
+            spellcheck="false"
+            class="code-editor w-full h-[450px] bg-slate-950 text-green-300 p-5 resize-none border-0"
+          ><!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: sans-serif;
+  padding: 30px;
+}
+button {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #6366f1;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<h1>BilgiKaynağı 🚀</h1>
+<p>Kendi kodunu yaz ve çalıştır.</p>
+
+<button onclick="alert('Çalışıyor!')">
+  Tıkla
+</button>
+
+</body>
+</html></textarea>
+        </div>
+
+        <div class="card bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+          <div class="p-4 border-b border-slate-200 dark:border-slate-800 font-bold">
+            Önizleme
+          </div>
+          <iframe id="code-preview" class="w-full h-[450px] bg-white"></iframe>
+        </div>
+      </div>
+
+      <div class="mt-10">
+        <h2 class="text-2xl font-black mb-5">Kodlama Dersleri</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          ${academyLessons("coding").map(lessonCard).join("")}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+const defaultCode = `<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: sans-serif;
+  padding: 30px;
+}
+button {
+  padding: 12px 20px;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+</style>
+</head>
+<body>
+<h1>BilgiKaynağı 🚀</h1>
+<p>Merhaba dünya!</p>
+<button onclick="alert('Çalışıyor!')">Tıkla</button>
+</body>
+</html>`;
+
+function runCode() {
+  const code = document.getElementById("code-editor")?.value;
+  const preview = document.getElementById("code-preview");
+
+  if (!preview) return;
+
+  preview.srcdoc = code;
+  addXP(5, "Kod çalıştırıldı");
+}
+
+function copyCode() {
+  const code = document.getElementById("code-editor")?.value || "";
+
+  navigator.clipboard?.writeText(code)
+    .then(() => toast("Kod kopyalandı."))
+    .catch(() => toast("Kod kopyalanamadı.", "error"));
+}
+
+function resetCode() {
+  const editor = document.getElementById("code-editor");
+  if (editor) editor.value = defaultCode;
+  toast("Kod sıfırlandı.", "info");
+}
+
+/* =========================================================
+   SOCIAL
+========================================================= */
+
+function renderSocialAcademy() {
+  return `
+    <div class="page-enter max-w-7xl mx-auto px-4 py-10">
+      <div class="rounded-3xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white p-8">
+        <div class="text-5xl">📱</div>
+        <h1 class="text-4xl font-black mt-4">Sosyal Medya Akademisi</h1>
+        <p class="text-white/80 mt-2">İçerik üretimi ve kısa video stratejilerini öğren.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-5 mt-8">
+        ${academyLessons("social").map(lessonCard).join("")}
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================
+   COMMUNITY
+========================================================= */
+
+function renderCommunity() {
+  const posts = state.community || [];
+
+  return `
+    <div class="page-enter max-w-6xl mx-auto px-4 py-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <p class="text-brand-500 font-bold text-sm">TOPLULUK</p>
+          <h1 class="text-4xl font-black mt-2">Birlikte öğrenelim. 💬</h1>
+          <p class="text-slate-500 mt-2">Sorularını paylaş ve diğer öğrencilerle fikir alışverişi yap.</p>
+        </div>
+
+        <button onclick="openQuestionModal()" class="px-5 py-3 rounded-xl bg-brand-600 text-white font-bold">
+          + Soru Sor
+        </button>
+      </div>
+
+      <div class="flex gap-2 mt-8 overflow-x-auto">
+        <button onclick="renderCommunity()" class="px-4 py-2 rounded-xl bg-brand-500 text-white text-sm font-bold">Yeni</button>
+        <button class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 text-sm font-bold">Popüler</button>
+        <button class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 text-sm font-bold">Çözülen</button>
+      </div>
+
+      <div class="space-y-4 mt-6">
+        ${posts.length ? posts.map((p,i) => `
+          <div class="card bg-white dark:bg-slate-900 rounded-2xl p-5">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center">
+                ${escapeHTML(p.avatar || "👨‍💻")}
+              </div>
+              <div>
+                <div class="font-bold">${escapeHTML(p.author || "Öğrenci")}</div>
+                <div class="text-xs text-slate-500">${formatDate(p.date)}</div>
+              </div>
+            </div>
+
+            <h3 class="font-black text-lg mt-4">${escapeHTML(p.title)}</h3>
+            <p class="text-slate-500 mt-2">${escapeHTML(p.text)}</p>
+
+            <div class="flex gap-3 mt-5">
+              <button onclick="likePost(${i})" class="px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm">
+                👍 ${p.likes || 0}
+              </button>
+
+              ${p.solved ? `
+                <span class="px-3 py-2 rounded-lg bg-emerald-500/10 text-emerald-500 text-sm font-bold">
+                  ✓ Çözüldü
+                </span>
+              ` : ""}
+            </div>
+          </div>
+        `).join("") : `
+          <div class="text-center py-20 text-slate-500">
+            <div class="text-5xl">💬</div>
+            <p class="mt-4">Henüz soru yok. İlk soruyu sen sor!</p>
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function openQuestionModal() {
+  showModal(`
+    <div class="p-6">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xl font-black">Yeni Soru</h2>
+        <button onclick="closeModal()">✕</button>
+      </div>
+
+      <input id="question-title"
+        placeholder="Soru başlığı"
+        class="w-full mt-5 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800">
+
+      <textarea id="question-text" rows="5"
+        placeholder="Sorunu anlat..."
+        class="w-full mt-3 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800"></textarea>
+
+      <button onclick="createQuestion()"
+        class="w-full mt-4 py-3 rounded-xl bg-brand-600 text-white font-bold">
+        Soruyu Yayınla
+      </button>
+    </div>
+  `);
+}
+
+function createQuestion() {
+  const title = document.getElementById("question-title")?.value.trim();
+  const text = document.getElementById("question-text")?.value.trim();
+
+  if (!title || !text) {
+    toast("Başlık ve soru metni gerekli.", "warning");
+    return;
+  }
+
+  state.community.unshift({
+    id: Date.now(),
+    author: state.profile.username,
+    avatar: state.profile.avatar,
+    title,
+    text,
+    likes: 0,
+    solved: false,
+    date: new Date().toISOString()
+  });
+
+  saveState();
+  closeModal();
+  toast("Sorun topluluğa eklendi.");
+  navigate("community");
+}
+
+function likePost(index) {
+  if (!state.community[index]) return;
+
+  state.community[index].likes = (state.community[index].likes || 0) + 1;
+  addXP(2, "Topluluk etkileşimi");
+  saveState();
+  renderCommunity();
+}
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+function renderNotifications() {
+  const notifications = state.notifications || [];
+
+  return `
+    <div class="page-enter max-w-4xl mx-auto px-4 py-10">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-brand-500 font-bold text-sm">BİLDİRİMLER</p>
+          <h1 class="text-4xl font-black mt-2">Bildirim Merkezi 🔔</h1>
+        </div>
+
+        <button onclick="markNotificationsRead()" class="text-sm text-brand-500 font-bold">
+          Tümünü okundu yap
+        </button>
+      </div>
+
+      <div class="space-y-3 mt-8">
+        ${notifications.length ? notifications.map(n => `
+          <div class="flex gap-4 p-5 rounded-2xl ${n.read ? 'bg-slate-100 dark:bg-slate-900' : 'bg-brand-500/10'}">
+            <div class="text-2xl">${n.emoji}</div>
+            <div class="flex-1">
+              <div class="font-bold">${escapeHTML(n.text)}</div>
+              <div class="text-xs text-slate-500 mt-1">${formatDate(n.date)}</div>
+            </div>
+            ${!n.read ? `<span class="w-2.5 h-2.5 rounded-full bg-brand-500 mt-2"></span>` : ""}
+          </div>
+        `).join("") : `
+          <div class="text-center py-20 text-slate-500">
+            Bildirim yok.
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function markNotificationsRead() {
+  state.notifications.forEach(n => n.read = true);
+  saveState();
+  updateNotificationDot();
+  renderNotifications();
+}
+
+function updateNotificationDot() {
+  const dot = document.getElementById("notification-dot");
+  if (!dot) return;
+
+  const unread = state.notifications.some(n => !n.read);
+  dot.classList.toggle("hidden", !unread);
+}
+
+/* =========================================================
+   PLAYLIST
+========================================================= */
+
+function renderPlaylists() {
+  const playlist = state.playlists[0];
+
+  const lessons = playlist.lessons
+    .map(id => getLesson(id))
+    .filter(Boolean);
+
+  return `
+    <div class="page-enter max-w-6xl mx-auto px-4 py-10">
+      <p class="text-brand-500 font-bold text-sm">ÖĞRENME LİSTESİ</p>
+      <h1 class="text-4xl font-black mt-2">${escapeHTML(playlist.name)}</h1>
+
+      <div class="mt-8 space-y-3">
+        ${lessons.length ? lessons.map((l,i) => `
+          <div class="card bg-white dark:bg-slate-900 rounded-2xl p-4 flex items-center gap-4">
+            <div class="text-slate-400 font-bold">${i+1}</div>
+            <div class="flex-1">
+              <button onclick="navigate('lesson',${l.id})" class="font-bold hover:text-brand-500">
+                ${escapeHTML(l.title)}
+              </button>
+            </div>
+            <button onclick="removeFromPlaylist(${l.id})" class="text-red-500">
+              ✕
+            </button>
+          </div>
+        `).join("") : `
+          <div class="text-center py-20 text-slate-500">
+            Öğrenme listen henüz boş.
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function removeFromPlaylist(id) {
+  state.playlists[0].lessons = state.playlists[0].lessons.filter(x => x !== Number(id));
+  saveState();
+  renderPlaylists();
+}
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function renderSettings() {
+  return `
+    <div class="page-enter max-w-3xl mx-auto px-4 py-10">
+      <p class="text-brand-500 font-bold text-sm">AYARLAR</p>
+      <h1 class="text-4xl font-black mt-2">Ayarlar ⚙️</h1>
+
+      <div class="space-y-4 mt-8">
+
+        <div class="card bg-white dark:bg-slate-900 rounded-2xl p-5">
+          <h2 class="font-black text-lg">Görünüm</h2>
+          <p class="text-sm text-slate-500 mt-1">BilgiKaynağı görünümünü değiştir.</p>
+
+          <button onclick="toggleTheme()" class="mt-4 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 font-bold">
+            🌙 / ☀️ Temayı Değiştir
+          </button>
+        </div>
+
+        <div class="card bg-white dark:bg-slate-900 rounded-2xl p-5">
+          <h2 class="font-black text-lg">Bildirimler</h2>
+
+          <label class="flex items-center justify-between mt-4">
+            <span>Bildirimleri etkinleştir</span>
+            <input type="checkbox" ${state.settings.notifications ? "checked" : ""}
+              onchange="toggleNotifications(this.checked)">
+          </label>
+        </div>
+
+        <div class="card bg-white dark:bg-slate-900 rounded-2xl p-5">
+          <h2 class="font-black text-lg">Veriler</h2>
+          <p class="text-sm text-slate-500 mt-1">Öğrenme verilerini yedekle veya geri yükle.</p>
+
+          <div class="flex flex-wrap gap-3 mt-5">
+            <button onclick="exportData()" class="px-4 py-3 rounded-xl bg-brand-600 text-white font-bold">
+              Verilerimi İndir
+            </button>
+
+            <label class="px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 font-bold cursor-pointer">
+              JSON İçe Aktar
+              <input type="file" accept=".json" onchange="importData(event)" class="hidden">
+            </label>
+
+            <button onclick="confirmResetData()" class="px-4 py-3 rounded-xl bg-red-500/10 text-red-500 font-bold">
+              Tüm Verileri Sıfırla
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+function toggleNotifications(value) {
+  state.settings.notifications = value;
+  saveState();
+  toast(value ? "Bildirimler açıldı." : "Bildirimler kapatıldı.", "info");
+}
+
+function exportData() {
+  const blob = new Blob(
+    [JSON.stringify(state, null, 2)],
+    { type:"application/json" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "bilgikaynağı-yedek.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  toast("Verilerin dışa aktarıldı.");
+}
+
+function importData(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const imported = JSON.parse(reader.result);
+
+      if (!imported || typeof imported !== "object") {
+        throw new Error("Geçersiz veri");
+      }
+
+      state = mergeState(defaultState(), imported);
+      saveState();
+      applyTheme();
+      toast("Veriler başarıyla içe aktarıldı.");
+      navigate("dashboard");
+
+    } catch(e) {
+      toast("Geçersiz JSON dosyası.", "error");
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+function confirmResetData() {
+  showModal(`
+    <div class="p-6">
+      <h2 class="text-xl font-black">Verileri sıfırla?</h2>
+      <p class="text-slate-500 mt-2">
+        Tüm ilerleme, XP, notlar, favoriler ve profil bilgileri silinecek.
+      </p>
+
+      <div class="flex gap-3 mt-6">
+        <button onclick="closeModal()" class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 font-bold">
+          Vazgeç
+        </button>
+
+        <button onclick="resetAllData()" class="flex-1 py-3 rounded-xl bg-red-600 text-white font-bold">
+          Sıfırla
+        </button>
+      </div>
+    </div>
+  `);
+}
+
+function resetAllData() {
+  state = defaultState();
+  saveState();
+  applyTheme();
+  closeModal();
+  toast("Tüm veriler sıfırlandı.", "info");
+  navigate("home");
+}
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+function renderAdmin() {
+  const total = allLessons().length;
+
+  return `
+    <div class="page-enter max-w-7xl mx-auto px-4 py-10">
+      <div class="flex justify-between items-end">
+        <div>
+          <p class="text-brand-500 font-bold text-sm">YÖNETİM</p>
+          <h1 class="text-4xl font-black mt-2">Yönetici Paneli 🛠️</h1>
+          <p class="text-slate-500 mt-2">Tek dosyalı demo içerik yönetimi.</p>
+        </div>
+
+        <button onclick="openAddLessonModal()" class="px-5 py-3 rounded-xl bg-brand-600 text-white font-bold">
+          + Ders Ekle
+        </button>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+        ${statCard("","Toplam Ders",total,"📚")}
+        ${statCard("","Tamamlanan",state.completed.length,"🎓")}
+        ${statCard("","Topluluk",state.community.length,"💬")}
+        ${statCard("","Rozet",badges.length,"🏆")}
+      </div>
+
+      <div class="card bg-white dark:bg-slate-900 rounded-3xl p-6 mt-6">
+        <h2 class="text-xl font-black">Ders Yönetimi</h2>
+
+        <div class="space-y-3 mt-5">
+          ${allLessons().map(l => `
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-950">
+              <div class="flex-1">
+                <div class="font-bold">${escapeHTML(l.title)}</div>
+                <div class="text-xs text-slate-500">${escapeHTML(l.academy)} • ${l.level}</div>
+              </div>
+
+              ${state.customLessons.some(x=>x.id === l.id) ? `
+                <button onclick="deleteCustomLesson(${l.id})" class="px-3 py-2 rounded-lg bg-red-500/10 text-red-500 text-sm font-bold">
+                  Sil
+                </button>
+              ` : `
+                <span class="text-xs text-slate-400">Varsayılan</span>
+              `}
+            </div>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="card bg-white dark:bg-slate-900 rounded-3xl p-6 mt-6">
+        <h2 class="text-xl font-black">Duyuru</h2>
+
+        <div class="flex gap-2 mt-4">
+          <input id="announcement-input"
+            placeholder="Yeni duyuru..."
+            class="flex-1 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-950">
+
+          <button onclick="addAnnouncement()" class="px-4 rounded-xl bg-brand-600 text-white font-bold">
+            Ekle
+          </button>
+        </div>
+
+        <div class="space-y-2 mt-4">
+          ${state.announcements.map(a => `
+            <div class="p-3 rounded-xl bg-slate-100 dark:bg-slate-950 text-sm">
+              ${escapeHTML(a.text)}
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function openAddLessonModal() {
+  showModal(`
+    <div class="p-6">
+      <h2 class="text-xl font-black">Yeni Ders</h2>
+
+      <input id="new-title" placeholder="Ders başlığı"
+        class="w-full mt-5 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800">
+
+      <input id="new-description" placeholder="Açıklama"
+        class="w-full mt-3 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800">
+
+      <select id="new-academy"
+        class="w-full mt-3 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800">
+        <option value="capcut">CapCut</option>
+        <option value="social">Sosyal Medya</option>
+        <option value="coding">Kodlama</option>
+      </select>
+
+      <select id="new-level"
+        class="w-full mt-3 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800">
+        <option>Başlangıç</option>
+        <option>Orta</option>
+        <option>İleri</option>
+      </select>
+
+      <textarea id="new-content" rows="5"
+        placeholder="Ders içeriği..."
+        class="w-full mt-3 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800"></textarea>
+
+      <button onclick="createCustomLesson()"
+        class="w-full mt-4 py-3 rounded-xl bg-brand-600 text-white font-bold">
+        Dersi Oluştur
+      </button>
+    </div>
+  `);
+}
+
+function createCustomLesson() {
+  const title = document.getElementById("new-title")?.value.trim();
+  const description = document.getElementById("new-description")?.value.trim();
+  const academy = document.getElementById("new-academy")?.value;
+  const level = document.getElementById("new-level")?.value;
+  const content = document.getElementById("new-content")?.value.trim();
+
+  if (!title || !description || !content) {
+    toast("Gerekli alanları doldur.", "warning");
+    return;
+  }
+
+  const lesson = {
+    id: Date.now(),
+    academy,
+    title,
+    description,
+    level,
+    duration: 15,
+    icon: "book-open",
+    tags: ["yeni"],
+    content: `<p>${escapeHTML(content).replace(/\n/g,"</p><p>")}</p>`,
+    quiz: []
+  };
+
+  state.customLessons.push(lesson);
+  saveState();
+
+  closeModal();
+  toast("Yeni ders oluşturuldu.");
+  renderAdmin();
+}
+
+function deleteCustomLesson(id) {
+  showModal(`
+    <div class="p-6">
+      <h2 class="text-xl font-black">Dersi sil?</h2>
+      <p class="text-slate-500 mt-2">Bu işlem geri alınamaz.</p>
+
+      <div class="flex gap-3 mt-6">
+        <button onclick="closeModal()" class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 font-bold">
+          Vazgeç
+        </button>
+
+        <button onclick="reallyDeleteLesson(${id})" class="flex-1 py-3 rounded-xl bg-red-600 text-white font-bold">
+          Sil
+        </button>
+      </div>
+    </div>
+  `);
+}
+
+function reallyDeleteLesson(id) {
+  state.customLessons = state.customLessons.filter(l => l.id !== Number(id));
+  state.completed = state.completed.filter(x => x !== Number(id));
+  state.favorites = state.favorites.filter(x => x !== Number(id));
+  state.later = state.later.filter(x => x !== Number(id));
+  delete state.notes[id];
+
+  saveState();
+  closeModal();
+  toast("Ders silindi.", "info");
+  renderAdmin();
+}
+
+function addAnnouncement() {
+  const input = document.getElementById("announcement-input");
+  const text = input?.value.trim();
+
+  if (!text) return;
+
+  state.announcements.unshift({
+    id: Date.now(),
+    text,
+    date: new Date().toISOString()
+  });
+
+  addNotification("📢", "Yeni bir duyuru yayınlandı.");
+
+  saveState();
+  toast("Duyuru eklendi.");
+  renderAdmin();
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function showModal(content) {
+  const container = document.getElementById("modal-container");
+
+  container.innerHTML = `
+    <div class="fixed inset-0 z-[90] modal-backdrop flex items-center justify-center p-4"
+         onclick="if(event.target===this)closeModal()">
+
+      <div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto">
+        ${content}
+      </div>
+
+    </div>
+  `;
+}
+
+function closeModal() {
+  document.getElementById("modal-container").innerHTML = "";
+}
+
+/* =========================================================
+   404
+========================================================= */
+
+function render404() {
+  app.innerHTML = `
+    <div class="max-w-3xl mx-auto px-4 py-32 text-center">
+      <div class="text-7xl">🛰️</div>
+      <h1 class="text-4xl font-black mt-5">Sayfa bulunamadı</h1>
+      <p class="text-slate-500 mt-3">Aradığın içerik mevcut değil.</p>
+      <button onclick="navigate('home')" class="mt-6 px-5 py-3 rounded-xl bg-brand-600 text-white font-bold">
+        Ana Sayfaya Dön
+      </button>
+    </div>
+  `;
+}
+
+/* =========================================================
+   ROUTER
+========================================================= */
+
+const app = document.getElementById("app-content");
+
+let currentRoute = {
+  page: "home",
+  param: null
+};
+
+function navigate(page, param=null) {
+  currentRoute = { page, param };
+
+  if (param !== null && param !== undefined) {
+    history.pushState(
+      {page,param},
+      "",
+      "#" + page + "/" + encodeURIComponent(param)
+    );
+  } else {
+    history.pushState(
+      {page},
+      "",
+      "#" + page
+    );
+  }
+
+  renderPage();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function renderPage() {
+  const {page,param} = currentRoute;
+
+  switch(page) {
+    case "home":
+      app.innerHTML = renderHome();
+      break;
+
+    case "categories":
+      app.innerHTML = renderCategories();
+      break;
+
+    case "capcut":
+      app.innerHTML = renderAcademy("capcut");
+      break;
+
+    case "social":
+      app.innerHTML = renderSocialAcademy();
+      break;
+
+    case "coding":
+      app.innerHTML = renderCodingAcademy();
+      break;
+
+    case "lesson":
+      renderLessonDetail(param);
+      return;
+
+    case "search":
+      app.innerHTML = renderSearch(param || "");
+      break;
+
+    case "dashboard":
+      app.innerHTML = renderDashboard();
+      break;
+
+    case "profile":
+      app.innerHTML = renderProfile();
+      break;
+
+    case "achievements":
+      app.innerHTML = renderAchievements();
+      break;
+
+    case "favorites":
+      app.innerHTML = renderFavorites();
+      break;
+
+    case "later":
+      app.innerHTML = renderLater();
+      break;
+
+    case "roadmap":
+      app.innerHTML = renderRoadmap();
+      break;
+
+    case "ai":
+      app.innerHTML = renderAI();
+      break;
+
+    case "community":
+      app.innerHTML = renderCommunity();
+      break;
+
+    case "notifications":
+      app.innerHTML = renderNotifications();
+      break;
+
+    case "playlists":
+      app.innerHTML = renderPlaylists();
+      break;
+
+    case "settings":
+      app.innerHTML = renderSettings();
+      break;
+
+    case "admin":
+      app.innerHTML = renderAdmin();
+      break;
+
+    default:
+      render404();
+      return;
+  }
+
+  refreshIcons();
+  updateNotificationDot();
+}
+
+function refreshCurrentPage() {
+  renderPage();
+}
+
+window.addEventListener("popstate", () => {
+  parseHash();
+});
+
+function parseHash() {
+  const hash = location.hash.replace(/^#/, "");
+
+  if (!hash) {
+    currentRoute = {page:"home",param:null};
+    renderPage();
+    return;
+  }
+
+  const parts = hash.split("/");
+  const page = parts[0];
+  const param = parts.length > 1
+    ? decodeURIComponent(parts.slice(1).join("/"))
+    : null;
+
+  currentRoute = {page,param};
+  renderPage();
+}
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+========================================================= */
+
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && !["INPUT","TEXTAREA"].includes(document.activeElement.tagName)) {
+    e.preventDefault();
+
+    navigate("search");
+
+    setTimeout(() => {
+      document.getElementById("search-query")?.focus();
+    }, 50);
+  }
+
+  if (e.key === "Escape") {
+    closeModal();
+    document.getElementById("live-search-results")?.classList.add("hidden");
+  }
+});
+
+/* =========================================================
+   BACK TO TOP
+========================================================= */
+
+window.addEventListener("scroll", () => {
+  let button = document.getElementById("back-top");
+
+  if (!button) {
+    button = document.createElement("button");
+    button.id = "back-top";
+    button.className = "fixed bottom-5 left-5 z-30 hidden w-11 h-11 rounded-xl bg-brand-600 text-white shadow-xl";
+    button.innerHTML = "↑";
+    button.onclick = () => window.scrollTo({top:0,behavior:"smooth"});
+    document.body.appendChild(button);
+  }
+
+  button.classList.toggle("hidden", window.scrollY < 500);
+});
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+applyTheme();
+updateDailySystem();
+checkBadges();
+parseHash();
+
+if (!location.hash) {
+  navigate("home");
+} else {
+  parseHash();
+}
+
+refreshIcons();
+updateNotificationDot();
+
+/* Expose useful functions */
+window.navigate = navigate;
+window.toggleTheme = toggleTheme;
+window.toggleMobileMenu = toggleMobileMenu;
+window.mobileNavigate = mobileNavigate;
+window.toggleFavorite = toggleFavorite;
+window.toggleLater = toggleLater;
+window.completeLesson = completeLesson;
+window.saveNote = saveNote;
+window.submitQuiz = submitQuiz;
+window.handleAIQuery = handleAIQuery;
+window.clearAIHistory = clearAIHistory;
+window.runCode = runCode;
+window.copyCode = copyCode;
+window.resetCode = resetCode;
+window.openQuestionModal = openQuestionModal;
+window.createQuestion = createQuestion;
+window.likePost = likePost;
+window.exportData = exportData;
+window.importData = importData;
+window.confirmResetData = confirmResetData;
+window.resetAllData = resetAllData;
+window.saveProfile = saveProfile;
+window.openAddLessonModal = openAddLessonModal;
+window.createCustomLesson = createCustomLesson;
+window.deleteCustomLesson = deleteCustomLesson;
+window.reallyDeleteLesson = reallyDeleteLesson;
+window.addAnnouncement = addAnnouncement;
+window.closeModal = closeModal;
+window.markNotificationsRead = markNotificationsRead;
+window.changeDailyGoal = changeDailyGoal;
+window.filterAcademyCards = filterAcademyCards;
+window.runAdvancedSearch = runAdvancedSearch;
+window.liveSearch = liveSearch;
+window.copyLessonLink = copyLessonLink;
+/* ============================================================
+   BİLGİKAYNAĞI — NEXT GEN UI + FEATURES PACK
+   Mevcut sistemi bozmadan yeni katman ekler.
+   ============================================================ */
+
+(function () {
+    "use strict";
+
+    /* =========================================================
+       STATE
+    ========================================================= */
+
+    const KEY = "BilgiKaynağı_nextgen";
+
+    function getData() {
+        try {
+            return JSON.parse(localStorage.getItem(KEY)) || {
+                streak: 0,
+                lastStudy: null,
+                dailyXP: 0,
+                weeklyXP: 0,
+                pomodoro: {
+                    sessions: 0,
+                    minutes: 0
+                },
+                reactions: {},
+                goals: [],
+                achievements: [],
+                focusMode: false
+            };
+        } catch {
+            return {};
+        }
+    }
+
+    function saveData(data) {
+        localStorage.setItem(
+            KEY,
+            JSON.stringify(data)
+        );
+    }
+
+    let NX = getData();
+
+
+    /* =========================================================
+       HELPER
+    ========================================================= */
+
+    function esc(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    function notify(message) {
+
+        if (typeof toast === "function") {
+            toast(message);
+            return;
+        }
+
+        const el =
+            document.createElement("div");
+
+        el.className =
+            "fixed bottom-6 left-1/2 -translate-x-1/2 z-[99999] px-5 py-3 rounded-2xl bg-slate-900 text-white shadow-2xl font-bold";
+
+        el.textContent = message;
+
+        document.body.appendChild(el);
+
+        setTimeout(
+            () => el.remove(),
+            2500
+        );
+    }
+
+
+    /* =========================================================
+       NEXT GEN CSS
+    ========================================================= */
+
+    const style =
+        document.createElement("style");
+
+    style.id =
+        "BilgiKaynağı-nextgen-style";
+
+    style.textContent = `
+
+        /* ===============================
+           GLOBAL
+        =============================== */
+
+        :root {
+            --nx-purple: #7c3aed;
+            --nx-blue: #2563eb;
+            --nx-cyan: #06b6d4;
+            --nx-green: #10b981;
+            --nx-orange: #f97316;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            transition:
+                background-color .35s ease,
+                color .35s ease;
+        }
+
+        /* ===============================
+           GLASS
+        =============================== */
+
+        .nx-glass {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,.75),
+                    rgba(255,255,255,.45)
+                );
+
+            backdrop-filter:
+                blur(18px);
+
+            border:
+                1px solid
+                rgba(148,163,184,.22);
+
+            box-shadow:
+                0 20px 60px
+                rgba(15,23,42,.08);
+        }
+
+        .dark .nx-glass {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(15,23,42,.80),
+                    rgba(30,41,59,.55)
+                );
+
+            border-color:
+                rgba(148,163,184,.12);
+
+            box-shadow:
+                0 25px 80px
+                rgba(0,0,0,.28);
+        }
+
+        /* ===============================
+           AURORA BACKGROUND
+        =============================== */
+
+        .nx-aurora {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .nx-aurora span {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border-radius: 999px;
+            filter: blur(100px);
+            opacity: .13;
+            animation:
+                nxFloat 15s ease-in-out infinite;
+        }
+
+        .nx-aurora span:nth-child(1) {
+            background: #7c3aed;
+            left: -100px;
+            top: 10%;
+        }
+
+        .nx-aurora span:nth-child(2) {
+            background: #06b6d4;
+            right: -100px;
+            top: 30%;
+            animation-delay: -5s;
+        }
+
+        .nx-aurora span:nth-child(3) {
+            background: #10b981;
+            left: 35%;
+            bottom: -200px;
+            animation-delay: -10s;
+        }
+
+        @keyframes nxFloat {
+
+            0%,100% {
+                transform:
+                    translate3d(0,0,0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate3d(40px,-30px,0)
+                    scale(1.15);
+            }
+
+        }
+
+        /* ===============================
+           CARDS
+        =============================== */
+
+        .nx-card {
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease,
+                border-color .25s ease;
+        }
+
+        .nx-card:hover {
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 25px 60px
+                rgba(15,23,42,.12);
+        }
+
+        .dark .nx-card:hover {
+            box-shadow:
+                0 25px 70px
+                rgba(0,0,0,.35);
+        }
+
+        /* ===============================
+           BUTTON
+        =============================== */
+
+        .nx-btn {
+            position: relative;
+            overflow: hidden;
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .nx-btn:hover {
+            transform:
+                translateY(-2px);
+        }
+
+        .nx-btn:active {
+            transform:
+                scale(.97);
+        }
+
+        .nx-btn::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    110deg,
+                    transparent,
+                    rgba(255,255,255,.25),
+                    transparent
+                );
+
+            transform:
+                translateX(-120%);
+
+            transition:
+                transform .5s ease;
+        }
+
+        .nx-btn:hover::after {
+            transform:
+                translateX(120%);
+        }
+
+        /* ===============================
+           XP BAR
+        =============================== */
+
+        .nx-xp-bar {
+            height: 9px;
+            border-radius: 99px;
+            overflow: hidden;
+            background:
+                rgba(148,163,184,.18);
+        }
+
+        .nx-xp-fill {
+            height: 100%;
+            border-radius: inherit;
+            background:
+                linear-gradient(
+                    90deg,
+                    #7c3aed,
+                    #2563eb,
+                    #06b6d4
+                );
+
+            box-shadow:
+                0 0 18px
+                rgba(124,58,237,.45);
+
+            transition:
+                width 1s ease;
+        }
+
+        /* ===============================
+           BADGE
+        =============================== */
+
+        .nx-badge {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nx-badge::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.16);
+            top: -40px;
+            right: -30px;
+        }
+
+        /* ===============================
+           SKELETON
+        =============================== */
+
+        .nx-skeleton {
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(148,163,184,.10),
+                    rgba(148,163,184,.25),
+                    rgba(148,163,184,.10)
+                );
+
+            background-size:
+                200% 100%;
+
+            animation:
+                nxSkeleton 1.4s infinite;
+        }
+
+        @keyframes nxSkeleton {
+
+            from {
+                background-position:
+                    200% 0;
+            }
+
+            to {
+                background-position:
+                    -200% 0;
+            }
+
+        }
+
+        /* ===============================
+           PAGE TRANSITION
+        =============================== */
+
+        .nx-page-enter {
+            animation:
+                nxPage .45s ease both;
+        }
+
+        @keyframes nxPage {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0);
+            }
+
+        }
+
+        /* ===============================
+           COMMAND PALETTE
+        =============================== */
+
+        #nx-command {
+
+            position: fixed;
+            inset: 0;
+
+            z-index: 99999;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+
+            padding-top: 12vh;
+
+            background:
+                rgba(2,6,23,.68);
+
+            backdrop-filter:
+                blur(12px);
+
+        }
+
+        .nx-command-box {
+
+            width:
+                min(700px, calc(100% - 30px));
+
+            overflow: hidden;
+
+            border-radius:
+                24px;
+
+            background:
+                white;
+
+            box-shadow:
+                0 40px 100px
+                rgba(0,0,0,.4);
+
+        }
+
+        .dark .nx-command-box {
+            background:
+                #0f172a;
+        }
+
+        /* ===============================
+           FOCUS MODE
+        =============================== */
+
+        #nx-focus {
+
+            position: fixed;
+            inset: 0;
+
+            z-index: 99998;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #172554,
+                    #020617 65%
+                );
+
+            color: white;
+
+        }
+
+        .nx-focus-number {
+
+            font-size:
+                clamp(70px, 13vw, 150px);
+
+            line-height: 1;
+
+            font-weight: 900;
+
+            letter-spacing:
+                -0.06em;
+
+            text-shadow:
+                0 0 60px
+                rgba(59,130,246,.35);
+        }
+
+        /* ===============================
+           RESPONSIVE
+        =============================== */
+
+        @media(max-width:640px) {
+
+            .nx-card:hover {
+                transform:
+                    translateY(-2px);
+            }
+
+        }
+
+    `;
+
+    document.head.appendChild(style);
+
+
+    /* =========================================================
+       AURORA
+    ========================================================= */
+
+    if (
+        !document.getElementById(
+            "nx-aurora"
+        )
+    ) {
+
+        const aurora =
+            document.createElement("div");
+
+        aurora.id =
+            "nx-aurora";
+
+        aurora.className =
+            "nx-aurora";
+
+        aurora.innerHTML = `
+            <span></span>
+            <span></span>
+            <span></span>
+        `;
+
+        document.body.prepend(
+            aurora
+        );
+
+    }
+
+
+    /* =========================================================
+       COMMAND PALETTE
+    ========================================================= */
+
+    const commands = [
+
+        ["🏠", "Ana Sayfa", () =>
+            navigate("home")],
+
+        ["📊", "Panelim", () =>
+            navigate("dashboard")],
+
+        ["🔎", "Ders Ara", () =>
+            navigate("search")],
+
+        ["🤖", "AI Koç", () =>
+            navigate("ai")],
+
+        ["💬", "Topluluk", () =>
+            navigate("community")],
+
+        ["🏆", "Başarılar", () =>
+            navigate("achievements")],
+
+        ["🗺️", "Yol Haritası", () =>
+            navigate("roadmap")],
+
+        ["🎲", "Rastgele Ders", () =>
+            randomLessonNX()],
+
+        ["🎯", "Odak Modu", () =>
+            focusNX()],
+
+        ["📈", "İstatistikler", () =>
+            analyticsNX()],
+
+        ["🎓", "Sertifikalar", () =>
+            navigate("achievements")]
+
+    ];
+
+
+    function openCommandNX() {
+
+        const existing =
+            document.getElementById(
+                "nx-command"
+            );
+
+        if (existing) {
+
+            existing.remove();
+
+            return;
+
+        }
+
+        const modal =
+            document.createElement("div");
+
+        modal.id =
+            "nx-command";
+
+        modal.innerHTML = `
+
+            <div class="nx-command-box">
+
+                <div class="p-4 border-b border-slate-200 dark:border-slate-800">
+
+                    <input
+                        id="nx-command-input"
+                        autofocus
+                        placeholder="Bir şey ara veya komut yaz..."
+                        class="w-full bg-transparent outline-none text-lg px-2 py-2"
+                    >
+
+                </div>
+
+                <div
+                    id="nx-command-list"
+                    class="p-3 max-h-[65vh] overflow-y-auto"
+                >
+
+                    ${commands.map(
+                        (command,index) => `
+
+                            <button
+                                data-index="${index}"
+                                class="
+                                    w-full
+                                    flex
+                                    items-center
+                                    gap-4
+                                    p-4
+                                    rounded-2xl
+                                    hover:bg-slate-100
+                                    dark:hover:bg-slate-800
+                                    text-left
+                                "
+                            >
+
+                                <span class="text-2xl">
+                                    ${command[0]}
+                                </span>
+
+                                <span class="font-bold">
+                                    ${command[1]}
+                                </span>
+
+                                <kbd class="ml-auto text-xs opacity-40">
+                                    ${index+1}
+                                </kbd>
+
+                            </button>
+
+                    `).join("")}
+
+                </div>
+
+            </div>
+        `;
+
+        modal.addEventListener(
+            "click",
+            e => {
+
+                if (
+                    e.target === modal
+                ) {
+                    modal.remove();
+                }
+
+            }
+        );
+
+        document.body.appendChild(
+            modal
+        );
+
+        modal
+            .querySelectorAll(
+                "[data-index]"
+            )
+            .forEach(button => {
+
+                button.onclick = () => {
+
+                    const index =
+                        Number(
+                            button.dataset.index
+                        );
+
+                    modal.remove();
+
+                    commands[index][2]();
+
+                };
+
+            });
+
+        const input =
+            document.getElementById(
+                "nx-command-input"
+            );
+
+        input?.addEventListener(
+            "input",
+            () => {
+
+                const query =
+                    input.value
+                        .toLowerCase();
+
+                modal
+                    .querySelectorAll(
+                        "[data-index]"
+                    )
+                    .forEach(button => {
+
+                        button.classList.toggle(
+                            "hidden",
+                            !button.innerText
+                                .toLowerCase()
+                                .includes(query)
+                        );
+
+                    });
+
+            }
+        );
+
+        input?.focus();
+
+    }
+
+
+    /* =========================================================
+       RANDOM LESSON
+    ========================================================= */
+
+    function randomLessonNX() {
+
+        let lessons = [];
+
+        try {
+
+            if (
+                typeof allLessons ===
+                "function"
+            ) {
+
+                lessons =
+                    allLessons();
+
+            } else if (
+                Array.isArray(
+                    window.defaultLessons
+                )
+            ) {
+
+                lessons =
+                    window.defaultLessons;
+
+            }
+
+        } catch {}
+
+        if (!lessons.length) {
+
+            notify(
+                "Henüz ders bulunamadı."
+            );
+
+            return;
+
+        }
+
+        const state =
+            window.state || {};
+
+        const completed =
+            Array.isArray(
+                state.completed
+            )
+                ? state.completed
+                : [];
+
+        const available =
+            lessons.filter(
+                lesson =>
+                    !completed.includes(
+                        lesson.id
+                    )
+            );
+
+        const pool =
+            available.length
+                ? available
+                : lessons;
+
+        const lesson =
+            pool[
+                Math.floor(
+                    Math.random() *
+                    pool.length
+                )
+            ];
+
+        if (
+            typeof navigate ===
+            "function"
+        ) {
+
+            navigate(
+                "lesson",
+                lesson.id
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       FOCUS MODE
+    ========================================================= */
+
+    let focusSeconds = 25 * 60;
+    let focusInterval = null;
+
+    function focusNX() {
+
+        if (
+            document.getElementById(
+                "nx-focus"
+            )
+        ) return;
+
+        const modal =
+            document.createElement("div");
+
+        modal.id =
+            "nx-focus";
+
+        modal.innerHTML = `
+
+            <div class="text-center px-6">
+
+                <div class="text-sm uppercase tracking-[.35em] opacity-50">
+                    BilgiKaynağı FOCUS
+                </div>
+
+                <h2 class="text-3xl font-black mt-4">
+                    Şimdi sadece öğren.
+                </h2>
+
+                <div
+                    id="nx-focus-time"
+                    class="nx-focus-number mt-12"
+                >
+                    25:00
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3 mt-12">
+
+                    <button
+                        onclick="startFocusNX(25)"
+                        class="
+                            nx-btn
+                            px-6
+                            py-3
+                            rounded-2xl
+                            bg-blue-600
+                            font-bold
+                        "
+                    >
+                        25 Dakika
+                    </button>
+
+                    <button
+                        onclick="startFocusNX(50)"
+                        class="
+                            nx-btn
+                            px-6
+                            py-3
+                            rounded-2xl
+                            bg-white/10
+                            font-bold
+                        "
+                    >
+                        50 Dakika
+                    </button>
+
+                    <button
+                        onclick="closeFocusNX()"
+                        class="
+                            nx-btn
+                            px-6
+                            py-3
+                            rounded-2xl
+                            bg-white/10
+                            font-bold
+                        "
+                    >
+                        Çık
+                    </button>
+
+                </div>
+
+                <p class="text-sm opacity-40 mt-8">
+                    İpucu: Bildirimleri kapat ve tek bir hedefe odaklan.
+                </p>
+
+            </div>
+
+        `;
+
+        document.body.appendChild(
+            modal
+        );
+
+    }
+
+
+    function startFocusNX(minutes) {
+
+        clearInterval(
+            focusInterval
+        );
+
+        focusSeconds =
+            minutes * 60;
+
+        updateFocusNX();
+
+        focusInterval =
+            setInterval(
+                () => {
+
+                    focusSeconds--;
+
+                    updateFocusNX();
+
+                    if (
+                        focusSeconds <= 0
+                    ) {
+
+                        clearInterval(
+                            focusInterval
+                        );
+
+                        NX.pomodoro =
+                            NX.pomodoro ||
+                            {
+                                sessions: 0,
+                                minutes: 0
+                            };
+
+                        NX.pomodoro.sessions++;
+
+                        NX.pomodoro.minutes +=
+                            minutes;
+
+                        saveData(NX);
+
+                        notify(
+                            "🎯 Odak oturumu tamamlandı!"
+                        );
+
+                    }
+
+                },
+                1000
+            );
+
+    }
+
+
+    function updateFocusNX() {
+
+        const el =
+            document.getElementById(
+                "nx-focus-time"
+            );
+
+        if (!el) return;
+
+        const min =
+            Math.floor(
+                focusSeconds / 60
+            );
+
+        const sec =
+            focusSeconds % 60;
+
+        el.textContent =
+            `${String(min).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+
+    }
+
+
+    function closeFocusNX() {
+
+        clearInterval(
+            focusInterval
+        );
+
+        document
+            .getElementById(
+                "nx-focus"
+            )
+            ?.remove();
+
+    }
+
+
+    /* =========================================================
+       ANALYTICS
+    ========================================================= */
+
+    function analyticsNX() {
+
+        const state =
+            window.state || {};
+
+        const completed =
+            Array.isArray(
+                state.completed
+            )
+                ? state.completed.length
+                : 0;
+
+        const xp =
+            Number(
+                state.xp || 0
+            );
+
+        const streak =
+            Number(
+                state.streak || 0
+            );
+
+        const minutes =
+            NX.pomodoro?.minutes ||
+            0;
+
+        const modal =
+            document.createElement("div");
+
+        modal.className =
+            "fixed inset-0 z-[99999] bg-black/70 backdrop-blur-md flex items-center justify-center p-4";
+
+        modal.innerHTML = `
+
+            <div
+                class="
+                    nx-glass
+                    w-full
+                    max-w-5xl
+                    max-h-[90vh]
+                    overflow-y-auto
+                    rounded-[32px]
+                    p-6
+                    md:p-8
+                "
+            >
+
+                <div class="flex items-center justify-between">
+
+                    <div>
+
+                        <div class="text-xs font-black tracking-[.3em] text-purple-500">
+                            BilgiKaynağı INSIGHTS
+                        </div>
+
+                        <h2 class="text-3xl md:text-4xl font-black mt-2">
+                            Öğrenme Merkezi
+                        </h2>
+
+                    </div>
+
+                    <button
+                        onclick="this.closest('.fixed').remove()"
+                        class="
+                            w-11
+                            h-11
+                            rounded-2xl
+                            bg-slate-100
+                            dark:bg-slate-800
+                        "
+                    >
+                        ✕
+                    </button>
+
+                </div>
+
+                <div
+                    class="
+                        grid
+                        sm:grid-cols-2
+                        lg:grid-cols-4
+                        gap-4
+                        mt-8
+                    "
+                >
+
+                    ${[
+                        ["⚡","XP",xp],
+                        ["📚","Ders",completed],
+                        ["🔥","Seri",streak],
+                        ["🎯","Odak",minutes+" dk"]
+                    ].map(
+                        x => `
+
+                            <div
+                                class="
+                                    nx-card
+                                    p-5
+                                    rounded-3xl
+                                    bg-slate-100
+                                    dark:bg-slate-800/70
+                                "
+                            >
+
+                                <div class="text-3xl">
+                                    ${x[0]}
+                                </div>
+
+                                <div class="text-sm opacity-50 mt-4">
+                                    ${x[1]}
+                                </div>
+
+                                <div class="text-3xl font-black mt-1">
+                                    ${x[2]}
+                                </div>
+
+                            </div>
+
+                        `
+                    ).join("")}
+
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-5 mt-5">
+
+                    <div
+                        class="
+                            nx-card
+                            rounded-3xl
+                            p-6
+                            bg-gradient-to-br
+                            from-purple-600
+                            to-blue-600
+                            text-white
+                        "
+                    >
+
+                        <div class="text-sm opacity-70">
+                            Öğrenme enerjin
+                        </div>
+
+                        <div class="text-4xl font-black mt-3">
+                            ${Math.min(
+                                100,
+                                completed * 8 +
+                                streak * 3
+                            )}%
+                        </div>
+
+                        <div class="nx-xp-bar mt-5 bg-white/20">
+
+                            <div
+                                class="nx-xp-fill"
+                                style="
+                                    width:${Math.min(
+                                        100,
+                                        completed * 8 +
+                                        streak * 3
+                                    )}%
+                                "
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="
+                            nx-card
+                            rounded-3xl
+                            p-6
+                            bg-slate-100
+                            dark:bg-slate-800/70
+                        "
+                    >
+
+                        <div class="text-sm opacity-50">
+                            Pomodoro
+                        </div>
+
+                        <div class="text-4xl font-black mt-3">
+                            ${NX.pomodoro?.sessions || 0}
+                        </div>
+
+                        <div class="text-sm opacity-50 mt-2">
+                            odak oturumu tamamlandı
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-5 p-6 rounded-3xl bg-slate-100 dark:bg-slate-800/70">
+
+                    <h3 class="font-black text-xl">
+                        Son 7 Gün
+                    </h3>
+
+                    <div
+                        class="
+                            grid
+                            grid-cols-7
+                            gap-3
+                            mt-6
+                            items-end
+                        "
+                    >
+
+                        ${Array.from(
+                            {length:7},
+                            (_,i) => {
+
+                                const value =
+                                    Math.max(
+                                        8,
+                                        Math.min(
+                                            100,
+                                            ((completed +
+                                            i * 7) % 100)
+                                        )
+                                    );
+
+                                return `
+
+                                    <div class="text-center">
+
+                                        <div
+                                            class="
+                                                rounded-t-xl
+                                                bg-gradient-to-t
+                                                from-purple-600
+                                                to-cyan-400
+                                            "
+                                            style="
+                                                height:${value}px
+                                            "
+                                        ></div>
+
+                                        <div class="text-xs opacity-40 mt-2">
+                                            ${[
+                                                "Pzt",
+                                                "Sal",
+                                                "Çar",
+                                                "Per",
+                                                "Cum",
+                                                "Cmt",
+                                                "Paz"
+                                            ][i]}
+                                        </div>
+
+                                    </div>
+
+                                `;
+
+                            }
+                        ).join("")}
+
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        document.body.appendChild(
+            modal
+        );
+
+    }
+
+
+    /* =========================================================
+       QUICK ACTION BAR
+    ========================================================= */
+
+    function createQuickActions() {
+
+        if (
+            document.getElementById(
+                "nx-quick-actions"
+            )
+        ) return;
+
+        const bar =
+            document.createElement("div");
+
+        bar.id =
+            "nx-quick-actions";
+
+        bar.className =
+            "fixed bottom-5 left-1/2 -translate-x-1/2 z-[500]";
+
+        bar.innerHTML = `
+
+            <div
+                class="
+                    nx-glass
+                    rounded-3xl
+                    p-2
+                    flex
+                    items-center
+                    gap-1
+                    shadow-2xl
+                "
+            >
+
+                <button
+                    onclick="openCommandNX()"
+                    title="Komutlar"
+                    class="nx-btn w-11 h-11 rounded-2xl"
+                >
+                    ⌘
+                </button>
+
+                <button
+                    onclick="randomLessonNX()"
+                    title="Rastgele Ders"
+                    class="nx-btn w-11 h-11 rounded-2xl"
+                >
+                    🎲
+                </button>
+
+                <button
+                    onclick="focusNX()"
+                    title="Odak"
+                    class="nx-btn w-11 h-11 rounded-2xl"
+                >
+                    🎯
+                </button>
+
+                <button
+                    onclick="analyticsNX()"
+                    title="İstatistik"
+                    class="nx-btn w-11 h-11 rounded-2xl"
+                >
+                    📈
+                </button>
+
+            </div>
+
+        `;
+
+        document.body.appendChild(
+            bar
+        );
+
+    }
+
+
+    /* =========================================================
+       KEYBOARD
+    ========================================================= */
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                (event.ctrlKey ||
+                 event.metaKey) &&
+                event.key.toLowerCase() === "k"
+            ) {
+
+                event.preventDefault();
+
+                openCommandNX();
+
+            }
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                document
+                    .getElementById(
+                        "nx-command"
+                    )
+                    ?.remove();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       PAGE ANIMATION
+    ========================================================= */
+
+    function animatePage() {
+
+        const app =
+            document.getElementById(
+                "app-content"
+            );
+
+        if (!app) return;
+
+        app.classList.remove(
+            "nx-page-enter"
+        );
+
+        void app.offsetWidth;
+
+        app.classList.add(
+            "nx-page-enter"
+        );
+
+    }
+
+
+    /* =========================================================
+       EXISTING NAVIGATE WRAPPER
+    ========================================================= */
+
+    if (
+        typeof window.navigate ===
+        "function" &&
+        !window.navigate.__nxWrapped
+    ) {
+
+        const oldNavigate =
+            window.navigate;
+
+        function newNavigate() {
+
+            const result =
+                oldNavigate.apply(
+                    this,
+                    arguments
+                );
+
+            setTimeout(
+                animatePage,
+                30
+            );
+
+            return result;
+
+        }
+
+        newNavigate.__nxWrapped =
+            true;
+
+        window.navigate =
+            newNavigate;
+
+    }
+
+
+    /* =========================================================
+       BOOT
+    ========================================================= */
+
+    function bootNX() {
+
+        createQuickActions();
+
+        animatePage();
+
+        document.body
+            .classList.add(
+                "nx-ready"
+            );
+
+    }
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            bootNX
+        );
+
+    } else {
+
+        bootNX();
+
+    }
+
+
+    /* =========================================================
+       GLOBAL
+    ========================================================= */
+
+    window.openCommandNX =
+        openCommandNX;
+
+    window.randomLessonNX =
+        randomLessonNX;
+
+    window.focusNX =
+        focusNX;
+
+    window.startFocusNX =
+        startFocusNX;
+
+    window.closeFocusNX =
+        closeFocusNX;
+
+    window.analyticsNX =
+        analyticsNX;
+
+})();
+</script>
+</body>
+</html>
